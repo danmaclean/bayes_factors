@@ -1,0 +1,8 @@
+book_filename: "bayes_factors"
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Topic "
+output_dir: "docs"
+clean: ["docs", "bayes_factors.md"]
+rmd_files: ["index.Rmd", "motivation.Rmd", "r-fundamentals.Rmd","bayes_factor_intro.Rmd","bayes_t.Rmd", "bayes_anova.Rmd", "bayes_proportion.Rmd", "references.Rmd"]
