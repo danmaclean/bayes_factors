@@ -24,7 +24,7 @@
 <meta name="author" content="Dan MacLean" />
 
 
-<meta name="date" content="2021-02-10" />
+<meta name="date" content="2021-02-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -168,7 +168,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="bayesian-inference.html"><a href="bayesian-inference.html#bayes-factors"><i class="fa fa-check"></i><b>4.4</b> Bayes Factors</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html"><i class="fa fa-check"></i><b>5</b> Bayes Factor <span class="math inline">\(t\)</span>-tests</a></li>
+<li class="chapter" data-level="5" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html"><i class="fa fa-check"></i><b>5</b> Bayes Factor <span class="math inline">\(t\)</span>-tests</a><ul>
+<li class="chapter" data-level="5.1" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#a-frequentist-t-test"><i class="fa fa-check"></i><b>5.1</b> A Frequentist <span class="math inline">\(t\)</span>-test</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#the-plant-growth-data-set"><i class="fa fa-check"></i><b>5.1.1</b> The Plant Growth data set</a></li>
+<li class="chapter" data-level="5.1.2" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#two-sample-t-test"><i class="fa fa-check"></i><b>5.1.2</b> Two Sample <span class="math inline">\(t\)</span>-test</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#a-bayesian-t-test"><i class="fa fa-check"></i><b>5.2</b> A Bayesian <span class="math inline">\(t\)</span>-test</a></li>
+<li class="chapter" data-level="5.3" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#comparing-p-and-the-bayes-factor-for-the-plantgrowth-data"><i class="fa fa-check"></i><b>5.3</b> Comparing <span class="math inline">\(p\)</span> and the Bayes Factor for the PlantGrowth data</a></li>
+<li class="chapter" data-level="5.4" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#better-hypotheses---one-tailed-tests"><i class="fa fa-check"></i><b>5.4</b> Better Hypotheses - One-tailed tests</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#a-data-frame-based-gotcha"><i class="fa fa-check"></i><b>5.4.1</b> A data frame based gotcha</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#performing-the-one-tailed-test"><i class="fa fa-check"></i><b>5.5</b> Performing the One-tailed test</a></li>
+<li class="chapter" data-level="5.6" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#testing-the-effect-of-the-prior"><i class="fa fa-check"></i><b>5.6</b> Testing the effect of the prior</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#the-cauchy-prior-distribution"><i class="fa fa-check"></i><b>5.6.1</b> The Cauchy Prior Distribution</a></li>
+<li class="chapter" data-level="5.6.2" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#the-effect-of-changing-the-prior"><i class="fa fa-check"></i><b>5.6.2</b> The effect of changing the prior</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html"><i class="fa fa-check"></i><b>6</b> Bayes Factor ANOVA</a></li>
 <li class="chapter" data-level="7" data-path="bayes-factor-chi2.html"><a href="bayes-factor-chi2.html"><i class="fa fa-check"></i><b>7</b> Bayes Factor <span class="math inline">\(\chi^2\)</span></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -337,7 +352,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In the next chapters we will look at how to use Bayes Factors in place of common frequentist hypothesis tests.</p>
 
 <div class="sidenote">
-<p>The <span class="citation">Wagenmakers et al. (<a href="#ref-wagenmakers2011" role="doc-biblioref">2011</a>)</span> article is fun if you can get hold of it. It’s a commentary on an earlier article in which the researchers conclude that people have the ability to see into the future by misunderstanding and misapplying statistics. Wagenmakers <em>et al</em> reperform the statistics with Bayes Factors and show that the original conclusions are unsound.</p>
+<p>The <span class="citation">Wagenmakers et al. (<a href="#ref-wagenmakers2011" role="doc-biblioref">2011</a>)</span> article is fun if you can get hold of it. It’s a commentary on an earlier article in which the researchers conclude that people have the ability to see into the future! Which they arrive at by misapplying statistics the same way that researchers across all fields do. Wagenmakers <em>et al</em> reperform the analysis with Bayes Factors and show that the original conclusions are unsound.</p>
 </div>
 
 

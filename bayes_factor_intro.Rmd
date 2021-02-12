@@ -138,6 +138,6 @@ In the next chapters we will look at how to use Bayes Factors in place of common
 
 
 ```{block2, type="sidenote"}
-The @wagenmakers2011 article is fun if you can get hold of it. It's a commentary on an earlier article in which the researchers conclude that people have the ability to see into the future by misunderstanding and misapplying statistics. Wagenmakers _et al_ reperform the statistics with Bayes Factors and show that the original conclusions are unsound.
+The @wagenmakers2011 article is fun if you can get hold of it. It's a commentary on an earlier article in which the researchers conclude that people have the ability to see into the future! Which they arrive at by misapplying statistics the same way that researchers across all fields do. Wagenmakers _et al_ reperform the analysis with Bayes Factors and show that the original conclusions are unsound.
 
 ```

@@ -24,7 +24,7 @@
 <meta name="author" content="Dan MacLean" />
 
 
-<meta name="date" content="2021-02-10" />
+<meta name="date" content="2021-02-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -168,7 +168,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="bayesian-inference.html"><a href="bayesian-inference.html#bayes-factors"><i class="fa fa-check"></i><b>4.4</b> Bayes Factors</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html"><i class="fa fa-check"></i><b>5</b> Bayes Factor <span class="math inline">\(t\)</span>-tests</a></li>
+<li class="chapter" data-level="5" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html"><i class="fa fa-check"></i><b>5</b> Bayes Factor <span class="math inline">\(t\)</span>-tests</a><ul>
+<li class="chapter" data-level="5.1" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#a-frequentist-t-test"><i class="fa fa-check"></i><b>5.1</b> A Frequentist <span class="math inline">\(t\)</span>-test</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#the-plant-growth-data-set"><i class="fa fa-check"></i><b>5.1.1</b> The Plant Growth data set</a></li>
+<li class="chapter" data-level="5.1.2" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#two-sample-t-test"><i class="fa fa-check"></i><b>5.1.2</b> Two Sample <span class="math inline">\(t\)</span>-test</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#a-bayesian-t-test"><i class="fa fa-check"></i><b>5.2</b> A Bayesian <span class="math inline">\(t\)</span>-test</a></li>
+<li class="chapter" data-level="5.3" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#comparing-p-and-the-bayes-factor-for-the-plantgrowth-data"><i class="fa fa-check"></i><b>5.3</b> Comparing <span class="math inline">\(p\)</span> and the Bayes Factor for the PlantGrowth data</a></li>
+<li class="chapter" data-level="5.4" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#better-hypotheses---one-tailed-tests"><i class="fa fa-check"></i><b>5.4</b> Better Hypotheses - One-tailed tests</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#a-data-frame-based-gotcha"><i class="fa fa-check"></i><b>5.4.1</b> A data frame based gotcha</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#performing-the-one-tailed-test"><i class="fa fa-check"></i><b>5.5</b> Performing the One-tailed test</a></li>
+<li class="chapter" data-level="5.6" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#testing-the-effect-of-the-prior"><i class="fa fa-check"></i><b>5.6</b> Testing the effect of the prior</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#the-cauchy-prior-distribution"><i class="fa fa-check"></i><b>5.6.1</b> The Cauchy Prior Distribution</a></li>
+<li class="chapter" data-level="5.6.2" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#the-effect-of-changing-the-prior"><i class="fa fa-check"></i><b>5.6.2</b> The effect of changing the prior</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html"><i class="fa fa-check"></i><b>6</b> Bayes Factor ANOVA</a></li>
 <li class="chapter" data-level="7" data-path="bayes-factor-chi2.html"><a href="bayes-factor-chi2.html"><i class="fa fa-check"></i><b>7</b> Bayes Factor <span class="math inline">\(\chi^2\)</span></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -194,7 +209,242 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="bayes-factor-t-tests" class="section level1">
 <h1><span class="header-section-number">Topic 5</span> Bayes Factor <span class="math inline">\(t\)</span>-tests</h1>
+<p>In this section we’ll look at how we can do a <span class="math inline">\(t\)</span>-test-like two sample comparison with Bayes Factors. The process is surprisingly straight forward but does need us to pay attention to the weaknesses of the Bayes method - specifically choosing the prior probability distribution. To actually do the tests we’ll use the <code>ttestBF()</code> in the <code>BayesFactor</code> package.</p>
+<div id="a-frequentist-t-test" class="section level2">
+<h2><span class="header-section-number">5.1</span> A Frequentist <span class="math inline">\(t\)</span>-test</h2>
+<p>To begin we’ll first do a normal <span class="math inline">\(t\)</span>-test with a sample data set as a basis for later comparison</p>
+<div id="the-plant-growth-data-set" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> The Plant Growth data set</h3>
+<p>You may recall the Plant Growth data set we used in the Linear Models course, here’s a reminder</p>
+<pre><code>##      weight       group   
+##  Min.   :3.590   ctrl:10  
+##  1st Qu.:4.550   trt1:10  
+##  Median :5.155   trt2:10  
+##  Mean   :5.073            
+##  3rd Qu.:5.530            
+##  Max.   :6.310</code></pre>
+<p><img src="bayes_factors_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>We will use this as an example data set, specifically we’ll use <code>ctrl</code> and <code>trt2</code> data, which we need to extract. Note the mean values for <code>trt2</code> look larger than <code>ctrl</code>.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="bayes-factor-t-tests.html#cb29-1"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb29-2"><a href="bayes-factor-t-tests.html#cb29-2"></a>pg_small &lt;-<span class="st"> </span>PlantGrowth <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb29-3"><a href="bayes-factor-t-tests.html#cb29-3"></a><span class="st">  </span><span class="kw">filter</span>(group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;trt2&quot;</span>, <span class="st">&quot;ctrl&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb29-4"><a href="bayes-factor-t-tests.html#cb29-4"></a><span class="st">  </span><span class="kw">droplevels</span>()</span></code></pre></div>
+<p>let’s calculate too the sample difference mean and the standardised effect size, as it will be important to know these values later</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="bayes-factor-t-tests.html#cb30-1"></a><span class="kw">library</span>(tidyr)</span>
+<span id="cb30-2"><a href="bayes-factor-t-tests.html#cb30-2"></a>pg_small <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb30-3"><a href="bayes-factor-t-tests.html#cb30-3"></a><span class="st">  </span><span class="kw">group_by</span>(group) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb30-4"><a href="bayes-factor-t-tests.html#cb30-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_weight =</span> <span class="kw">mean</span>(weight)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb30-5"><a href="bayes-factor-t-tests.html#cb30-5"></a><span class="st">  </span><span class="kw">pivot_wider</span>( <span class="dt">names_from =</span> group, <span class="dt">values_from =</span> mean_weight) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb30-6"><a href="bayes-factor-t-tests.html#cb30-6"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_sample_diff =</span> <span class="st">`</span><span class="dt">trt2</span><span class="st">`</span> <span class="op">-</span><span class="st"> `</span><span class="dt">ctrl</span><span class="st">`</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   mean_sample_diff
+##              &lt;dbl&gt;
+## 1            0.494</code></pre>
+<p>So the mean of <code>trt2</code> is bigger than <code>ctrl</code> by 0.49 g.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="bayes-factor-t-tests.html#cb32-1"></a><span class="kw">library</span>(effectsize)</span>
+<span id="cb32-2"><a href="bayes-factor-t-tests.html#cb32-2"></a><span class="kw">cohens_d</span>(weight <span class="op">~</span><span class="st"> </span>group, <span class="dt">data=</span>pg_small)</span></code></pre></div>
+<pre><code>## Cohen&#39;s d |         95% CI
+## --------------------------
+## -0.95     | [-1.87, -0.01]
+## 
+## - Estimated using pooled SD.</code></pre>
+<p>And correspondingly the standardised effect size is large. The effect size is negative because the calculation has been done in the order that the groups appear in the data. <code>ctrl</code> comes first so the calculation was <code>ctrl</code> - <code>trt2</code> which is a negative value. For now, this won’t matter. We will need to pay attention to it later.</p>
+</div>
+<div id="two-sample-t-test" class="section level3">
+<h3><span class="header-section-number">5.1.2</span> Two Sample <span class="math inline">\(t\)</span>-test</h3>
+<p>Let’s now do the <span class="math inline">\(t\)</span>-tests. The hypotheses for a test comparing the treatment groups are</p>
+<ul>
+<li><span class="math inline">\(H_0 : \bar{trt2} - \bar{ctrl} = 0\)</span> IE the mean sample difference is 0</li>
+<li><span class="math inline">\(H_1 : \bar{trt2} - \bar{ctrl} \neq 0\)</span> IE the mean sample difference is not 0</li>
+</ul>
+<p>Using these data to do a <span class="math inline">\(t\)</span>-test is easy, we’ll specify a cut-off of 0.05 for rejection of <span class="math inline">\(H_0\)</span>.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="bayes-factor-t-tests.html#cb34-1"></a>model &lt;-<span class="st"> </span><span class="kw">lm</span>(weight <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> pg_small)</span>
+<span id="cb34-2"><a href="bayes-factor-t-tests.html#cb34-2"></a><span class="kw">summary</span>(model)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = weight ~ group, data = pg_small)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -0.862 -0.410 -0.006  0.280  1.078 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   5.0320     0.1637  30.742   &lt;2e-16 ***
+## grouptrt2     0.4940     0.2315   2.134   0.0469 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.5176 on 18 degrees of freedom
+## Multiple R-squared:  0.2019, Adjusted R-squared:  0.1576 
+## F-statistic: 4.554 on 1 and 18 DF,  p-value: 0.04685</code></pre>
+<p>We get a <span class="math inline">\(p\)</span>-value of 0.046 which is less than our cut-off of 0.05 so we reject <span class="math inline">\(H_0\)</span> as unlikely and accept <span class="math inline">\(H_1\)</span> without explicitly testing it. Our conclusion scientifically is that <code>trt2</code> has greater <code>weight</code> than <code>ctrl</code>.</p>
+</div>
+</div>
+<div id="a-bayesian-t-test" class="section level2">
+<h2><span class="header-section-number">5.2</span> A Bayesian <span class="math inline">\(t\)</span>-test</h2>
+<p>Now let’s set up a BayesFactor <span class="math inline">\(t\)</span>-test. First we must set our hypotheses. The null hypothesis is similar to that in the frequentist <span class="math inline">\(t\)</span>-test, the idea is that there is no effect which we formulated above as</p>
+<ul>
+<li><span class="math inline">\(H_0 : \bar{trt2} - \bar{ctrl} = 0\)</span> IE the mean sample difference is 0</li>
+</ul>
+<p>Another way to say this is that the effect size <span class="math inline">\(d\)</span> is 0 so</p>
+<ul>
+<li><span class="math inline">\(H_0 : d = 0\)</span></li>
+</ul>
+<p>Because we need something to compare against we now need to form the alternative hypothesis. By default the <code>ttestBF()</code> function tests the alternative hypothesis that the effect size is not 0</p>
+<ul>
+<li><span class="math inline">\(H_1 : d \neq 0\)</span></li>
+</ul>
+<p>and returns the Bayes Factor we need. Performing the test is straightforward</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="bayes-factor-t-tests.html#cb36-1"></a><span class="kw">library</span>(BayesFactor)</span>
+<span id="cb36-2"><a href="bayes-factor-t-tests.html#cb36-2"></a><span class="kw">ttestBF</span>(<span class="dt">formula =</span>  weight <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> pg_small)</span></code></pre></div>
+<pre><code>## Bayes factor analysis
+## --------------
+## [1] Alt., r=0.707 : 1.774688 ±0%
+## 
+## Against denominator:
+##   Null, mu1-mu2 = 0 
+## ---
+## Bayes factor type: BFindepSample, JZS</code></pre>
+<p>We get a clear answer, the output on the line marked<code>[1]</code> is a Bayes Factor and states that the data are 1.77 times more likely if <span class="math inline">\(H_1\)</span> were true than if <span class="math inline">\(H_0\)</span> were true. In other words the odds of the data favouring the <span class="math inline">\(H_1\)</span> to <span class="math inline">\(H_0\)</span> are 1.77:1. Which is the answer we wanted to get, we have explicitly tested <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span> and found that <span class="math inline">\(H_1\)</span> is more likely to fit the data.</p>
+</div>
+<div id="comparing-p-and-the-bayes-factor-for-the-plantgrowth-data" class="section level2">
+<h2><span class="header-section-number">5.3</span> Comparing <span class="math inline">\(p\)</span> and the Bayes Factor for the PlantGrowth data</h2>
+<p>Comparing to our table of interpretation of Bayes Factors, we see that this corresponds only to ‘Anecdotal Evidence’ in favour of <span class="math inline">\(H_1\)</span>. Do we find this surprising given that the <span class="math inline">\(p\)</span>-value from the <span class="math inline">\(t\)</span>-test was significant? Does this mean that the two methods disagree? Strictly speaking, no, we shouldn’t be surprised and no they don’t disagree.</p>
+<p>It’s a bit of an apples and oranges situation. The two values are answers to very different questions.</p>
+<p>As we’ve said before the frequentist <span class="math inline">\(p\)</span>-value only measures the proportion of times a difference of the measured size would occur under some presumed background model. It does not measure the evidence that the hypothesis is true even though that is how many people try to interpret it. <span class="math inline">\(p\)</span> only tells us how often we would be wrong if we reject <span class="math inline">\(H_0\)</span>. As a result many philosophers have stated that <span class="math inline">\(p\)</span> based significance is a fundamentally uninteresting measure - who cares how often a difference occurs in some ideal world - what is important is the relative fit of the competing hypotheses to the data and that this measure of the strength of evidence per hypothesis is more in line with the interests of researchers.</p>
+<p>Taken together our <span class="math inline">\(p\)</span>-value states that the difference between the means of <code>trt2</code> and <code>ctrl</code> we observed occurs by chance in a normal distribution less than 0.05% of the time and the Bayes Factor tells us that the odds that the data favour the idea that <code>trt2</code> is not the same as <code>ctrl</code> are only 1.7 times greater than the idea that <code>trt2</code> and <code>ctrl</code> are equal. We can see that the two methods do not contradict.</p>
+<p>Hopefully this brings home the idea that Bayes Factor is different and arguably closer to what many scientists think they are doing when they do frequentist statistics.</p>
+<p>Interpreting these results correctly, then, logically means that a researcher is not likely to be very excited by the results and would not over value the significance of the observed difference.</p>
+</div>
+<div id="better-hypotheses---one-tailed-tests" class="section level2">
+<h2><span class="header-section-number">5.4</span> Better Hypotheses - One-tailed tests</h2>
+<p>But looking at the hypotheses we generated, could we ask a better, more informative one? With frequentist tests, no, but with Bayes Factors we can test different hypothesis. Instead of asking whether <code>trt2</code> is the same as <code>ctrl</code> or not we could ask something more specific. We are likely interested in whether <code>trt2</code> is greater than <code>ctrl</code>, or in other words that the effect size is greater than 0</p>
+<ul>
+<li><span class="math inline">\(H_1 : d &gt; 0\)</span></li>
+</ul>
+<p>We can specify this <span class="math inline">\(H_1\)</span> by setting the <code>nullInterval</code> argument, this is just the range we expect the effect sizes to be in under the null hypothesis, so we can use 0 to Infinity to cover any increased effect size (and -Infinity to 0 for any decreased effect size.</p>
+<div id="a-data-frame-based-gotcha" class="section level3">
+<h3><span class="header-section-number">5.4.1</span> A data frame based gotcha</h3>
+<p>Here is where we can run afoul of R’s idiosyncarcies - it is important to be careful here because the order of the data in the dataframe can have an effect that can confuse us. Recall that our effect size calculation for these data came out negative because <code>ctrl</code> came before <code>trt2</code>. Look at the dataframe <code>pg_small</code>.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="bayes-factor-t-tests.html#cb38-1"></a><span class="kw">str</span>(pg_small)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    20 obs. of  2 variables:
+##  $ weight: num  4.17 5.58 5.18 6.11 4.5 4.61 5.17 4.53 5.33 5.14 ...
+##  $ group : Factor w/ 2 levels &quot;ctrl&quot;,&quot;trt2&quot;: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<p>Note that the <code>ctrl</code> level in the <code>group</code> factor is first, we need to think of our <span class="math inline">\(H_1\)</span> more carefully,</p>
+<ul>
+<li><span class="math inline">\(H_1 : d &gt; 0\)</span></li>
+</ul>
+<p>really is in this case</p>
+<ul>
+<li><span class="math inline">\(H_1 : \bar{\text{trt2}} - \bar{\text{ctrl}} &gt; 0\)</span></li>
+</ul>
+<p>so we need to make sure that <code>trt2</code> comes first in the <code>group</code> factor. We can use the <code>$</code> notation to reorder the factor as we wish</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="bayes-factor-t-tests.html#cb40-1"></a>pg_small<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">factor</span>(pg_small<span class="op">$</span>group, </span>
+<span id="cb40-2"><a href="bayes-factor-t-tests.html#cb40-2"></a>                         <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;trt2&quot;</span>, <span class="st">&quot;ctrl&quot;</span>) )</span>
+<span id="cb40-3"><a href="bayes-factor-t-tests.html#cb40-3"></a><span class="kw">str</span>(pg_small)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    20 obs. of  2 variables:
+##  $ weight: num  4.17 5.58 5.18 6.11 4.5 4.61 5.17 4.53 5.33 5.14 ...
+##  $ group : Factor w/ 2 levels &quot;trt2&quot;,&quot;ctrl&quot;: 2 2 2 2 2 2 2 2 2 2 ...</code></pre>
+</div>
+</div>
+<div id="performing-the-one-tailed-test" class="section level2">
+<h2><span class="header-section-number">5.5</span> Performing the One-tailed test</h2>
+<p>With that done we can move back on with the one-sided test, specifying the interval as expected.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="bayes-factor-t-tests.html#cb42-1"></a><span class="kw">ttestBF</span>(<span class="dt">formula =</span>  weight <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> pg_small, <span class="dt">nullInterval=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="ot">Inf</span>))</span></code></pre></div>
+<pre><code>## Bayes factor analysis
+## --------------
+## [1] Alt., r=0.707 0&lt;d&lt;Inf    : 3.387166  ±0%
+## [2] Alt., r=0.707 !(0&lt;d&lt;Inf) : 0.1622109 ±0%
+## 
+## Against denominator:
+##   Null, mu1-mu2 = 0 
+## ---
+## Bayes factor type: BFindepSample, JZS</code></pre>
+<p>Performing the test was nice and easy and we get an answer. The first line of the output <code>[1]</code> states the odds that the data favour the alternative hypothesis over the null are 3.38:1. The Bayes Factor is increased over the earlier more vague hypothesis, suggesting there is actually substantial evidence for the idea that the effect size is greater than 0.</p>
+</div>
+<div id="testing-the-effect-of-the-prior" class="section level2">
+<h2><span class="header-section-number">5.6</span> Testing the effect of the prior</h2>
+<p>We discussed that one of the limitations of Bayesian Inference was the need to carefully and justifiably select a prior and that doing so was difficult. We’ll look at that a little bit now as we did make a decision on this albeit implicitly by allowing the defaults of the <code>ttestBF()</code> function.</p>
+<p>In our <code>ttestBF()</code> function we actually need to provide a prior distribution for the maths to work, not just a single value. We don’t want to get into details of those maths as they are out of scope but we do need to know that the prior distribution needs to cover a range of effect sizes that might be plausible if the null hypothesis were false.</p>
+<p>The <code>BayesFactor</code> package provides a Cauchy distribution as default. Since the selection of the prior implies that we know something about our dat, using the Cauchy implies that we think the population is normally distributed (which is the same distribution we assume under the standard frequentist statistical tests).</p>
+<div id="the-cauchy-prior-distribution" class="section level3">
+<h3><span class="header-section-number">5.6.1</span> The Cauchy Prior Distribution</h3>
+<p>The Cauchy is a distribution with a single parameter called <code>scale</code> that affects how wide its main humpy bit is. In <code>BayesFactor</code> there are three widths we can choose from depending on how big a difference we think we are seeing, that is how big the effect size. When plotted, these distributions look like this</p>
+<p><img src="bayes_factors_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>and the <code>name</code> corresponds to <code>scale</code> values as follows</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="right">scale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">medium</td>
+<td align="right">0.71</td>
+</tr>
+<tr class="even">
+<td align="left">wide</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="odd">
+<td align="left">ultrawide</td>
+<td align="right">1.41</td>
+</tr>
+</tbody>
+</table>
+<p>In each of the distributions 50% of the area under the curve falls within +/- the scale value.</p>
+<p>Since the scale on the <span class="math inline">\(x\)</span>-axis in our plot is effect size, the choice of scale values says somerthing about what we are expecting our effect sizes to be like. The wider the scale value, the bigger we are expecting our effect sizes to be.</p>
+<p>Our effect size in the <code>PlantGrowth</code> data was 0.95 so well within the area covered by the <code>medium</code> scale Cauchy, much more of that curve falls within the -0.95 to +0.95 effect size range than the other two, so we might think that one would be a better fit. That’s why it’s the default, it’s a good fit for generally found effect sizes.</p>
+</div>
+<div id="the-effect-of-changing-the-prior" class="section level3">
+<h3><span class="header-section-number">5.6.2</span> The effect of changing the prior</h3>
+<p>As an exercise to help us understand the importance of the prior and explicitly NOT a guide to maximising the odds in favour of one model over another. Let’s look at how changing the scale via the <code>rscale</code> parameter in <code>ttestBF()</code> affects the odds of our one sided model.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="bayes-factor-t-tests.html#cb44-1"></a><span class="kw">ttestBF</span>(<span class="dt">formula =</span>  weight <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> pg_small, <span class="dt">nullInterval=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="ot">Inf</span>), <span class="dt">rscale=</span><span class="st">&quot;medium&quot;</span>)</span></code></pre></div>
+<pre><code>## Bayes factor analysis
+## --------------
+## [1] Alt., r=0.707 0&lt;d&lt;Inf    : 3.387166  ±0%
+## [2] Alt., r=0.707 !(0&lt;d&lt;Inf) : 0.1622109 ±0%
+## 
+## Against denominator:
+##   Null, mu1-mu2 = 0 
+## ---
+## Bayes factor type: BFindepSample, JZS</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="bayes-factor-t-tests.html#cb46-1"></a><span class="kw">ttestBF</span>(<span class="dt">formula =</span>  weight <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> pg_small, <span class="dt">nullInterval=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="ot">Inf</span>), <span class="dt">rscale=</span><span class="st">&quot;wide&quot;</span>)</span></code></pre></div>
+<pre><code>## Bayes factor analysis
+## --------------
+## [1] Alt., r=1 0&lt;d&lt;Inf    : 3.22134   ±0%
+## [2] Alt., r=1 !(0&lt;d&lt;Inf) : 0.1189759 ±0%
+## 
+## Against denominator:
+##   Null, mu1-mu2 = 0 
+## ---
+## Bayes factor type: BFindepSample, JZS</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="bayes-factor-t-tests.html#cb48-1"></a><span class="kw">ttestBF</span>(<span class="dt">formula =</span>  weight <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> pg_small, <span class="dt">nullInterval=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="ot">Inf</span>), <span class="dt">rscale=</span><span class="st">&quot;ultrawide&quot;</span>)</span></code></pre></div>
+<pre><code>## Bayes factor analysis
+## --------------
+## [1] Alt., r=1.414 0&lt;d&lt;Inf    : 2.857414   ±0%
+## [2] Alt., r=1.414 !(0&lt;d&lt;Inf) : 0.08596477 ±0%
+## 
+## Against denominator:
+##   Null, mu1-mu2 = 0 
+## ---
+## Bayes factor type: BFindepSample, JZS</code></pre>
+<p>Indeed we do get stronger odds for the alternative hypothesis in the <code>medium</code> scale than the others. Note that it isn’t wise to go Bayes Factor fishing by post-hoc selecting the prior in order to maximise the Bayes Factor. This example was an exercise to show that prior selection is important.</p>
 
+<div class="roundup">
+<ul>
+<li>Bayes Factor <span class="math inline">\(t\)</span>-tests allow us to directly compare hypothesis about data in a way that is analogous to <span class="math inline">\(t\)</span>-tests.</li>
+<li>We can compare different hypotheses</li>
+<li>The interpretation of a BayesFactor tells us which of the hypotheses are favoured by the data</li>
+<li>Prior selection is important, but <code>ttestBF()</code> restricts us to sensible options for data we assume to be normal
+</div></li>
+</ul>
+
+</div>
+</div>
 </div>
             </section>
 
