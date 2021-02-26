@@ -211,8 +211,11 @@ ttestBF(formula =  weight ~ group, data = pg_small, nullInterval=c(0, Inf), rsca
 Indeed we do get stronger odds for the alternative hypothesis in the `medium` scale than the others. Note that it isn't wise to go Bayes Factor fishing by post-hoc selecting the prior in order to maximise the Bayes Factor. This example was an exercise to show that prior selection is important. 
 
 ```{block2, type="roundup"}
+
   * Bayes Factor $t$-tests allow us to directly compare hypothesis about data in a way that is analogous to $t$-tests. 
   * We can compare different hypotheses
   * The interpretation of a BayesFactor tells us which of the hypotheses are favoured by the data
   * Prior selection is important, but `ttestBF()` restricts us to sensible options for data we assume to be normal
+
 ```
+

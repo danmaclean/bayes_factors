@@ -8,3 +8,14 @@ We have seen an alternative in Estimation Statistics, in this book we will look 
 
 The advantage of this will be that we can much more directly select between specific hypotheses that might describe our data. This will give us a much clearer idea about a question that we instinctively want to answer when we do statistics - 'Which hypothesis is most likely true?', we will see that we can formulate this in lots of ways, but in general the hypotheses we want to compare will be something along the lines of some measured quantity being different in different samples.  With Frequentist Inference we can only ask the roundabout question, 'How often does the difference we observe occur by chance?' and if it isn't likely, say so. With Bayes Factors we will be able to compare directly competing hypotheses and reject the least likely absolutely.
 
+## Mr. Micawber's rule of statistical inference
+
+The ruinous role of the $p$-value in modern science can not be overstated. This one value is responsible for happiness and dispair in equal measure. Dicken's Mr. Micawber had this to say about the role of money in life's happiness:
+
+>  'Annual income 20 pounds, annual expenditure 19 [pounds] 19 shillings and six pence, result happiness. Annual income 20 pounds, annual expenditure 20 pounds ought and six, result misery. '
+
+In science a corollary exists: 
+
+> '$p$ below 0.05, result success, papers, grants, and tenure. $p$ above 0.05 result failure, misery, ignominy, and rejection.'
+
+The truth is that $p < 0.05$ is an entirely arbitrary cut-off and is not in itself a helpful or meaningful value. Various scientific communities, led by publishing requirements, have accepted this a gold standard of truth against sense and often against rigorousness. With Bayesian tests we will be able to completely do away with $p$-values and confidence intervals and in their place use a more evidence based approach to making inferences.  

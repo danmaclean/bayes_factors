@@ -24,7 +24,7 @@
 <meta name="author" content="Dan MacLean" />
 
 
-<meta name="date" content="2021-02-12" />
+<meta name="date" content="2021-02-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -145,7 +145,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#standard-packages"><i class="fa fa-check"></i><b>1.4.1</b> Standard packages</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a></li>
+<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a><ul>
+<li class="chapter" data-level="2.1" data-path="motivation.html"><a href="motivation.html#mr.-micawbers-rule-of-statistical-inference"><i class="fa fa-check"></i><b>2.1</b> Mr. Micawber’s rule of statistical inference</a></li>
+</ul></li>
 <li class="chapter" data-level="3" data-path="r-fundamentals.html"><a href="r-fundamentals.html"><i class="fa fa-check"></i><b>3</b> R Fundamentals</a><ul>
 <li class="chapter" data-level="3.1" data-path="r-fundamentals.html"><a href="r-fundamentals.html#about-this-chapter"><i class="fa fa-check"></i><b>3.1</b> About this chapter</a></li>
 <li class="chapter" data-level="3.2" data-path="r-fundamentals.html"><a href="r-fundamentals.html#working-with-r"><i class="fa fa-check"></i><b>3.2</b> Working with R</a></li>
@@ -184,7 +186,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6.2" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#the-effect-of-changing-the-prior"><i class="fa fa-check"></i><b>5.6.2</b> The effect of changing the prior</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html"><i class="fa fa-check"></i><b>6</b> Bayes Factor ANOVA</a></li>
+<li class="chapter" data-level="6" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html"><i class="fa fa-check"></i><b>6</b> Bayes Factor ANOVA</a><ul>
+<li class="chapter" data-level="6.1" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html#the-issue-of-multiplicity-in-frequentism-and-bayesianism"><i class="fa fa-check"></i><b>6.1</b> The issue of multiplicity in Frequentism and Bayesianism</a></li>
+<li class="chapter" data-level="6.2" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html#automating-bayesfactorttest-for-many-comparisions"><i class="fa fa-check"></i><b>6.2</b> Automating <code>BayesFactor::ttest()</code> for many comparisions</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="bayes-factor-chi2.html"><a href="bayes-factor-chi2.html"><i class="fa fa-check"></i><b>7</b> Bayes Factor <span class="math inline">\(\chi^2\)</span></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -213,7 +218,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The inferential approach in the Frequentist paradigm is often criticised for being weak and is often abused. Although the abuse is as much a consequence of convention in the scientific literature and in scientific publishing, the misinterpretation of <span class="math inline">\(p\)</span>-values by generations of scientists as it is the philosophical weakness of the methods themselves, the weaknesses persist and over time other paradigms have emerged.</p>
 <p>We have seen an alternative in Estimation Statistics, in this book we will look at another - Bayesian Inference and using Bayes Factors to compare levels of evidence for one hypothesis over another, rather than just accepting or rejecting a simplistic null hypothesis.</p>
 <p>The advantage of this will be that we can much more directly select between specific hypotheses that might describe our data. This will give us a much clearer idea about a question that we instinctively want to answer when we do statistics - ‘Which hypothesis is most likely true?’, we will see that we can formulate this in lots of ways, but in general the hypotheses we want to compare will be something along the lines of some measured quantity being different in different samples. With Frequentist Inference we can only ask the roundabout question, ‘How often does the difference we observe occur by chance?’ and if it isn’t likely, say so. With Bayes Factors we will be able to compare directly competing hypotheses and reject the least likely absolutely.</p>
+<div id="mr.-micawbers-rule-of-statistical-inference" class="section level2">
+<h2><span class="header-section-number">2.1</span> Mr. Micawber’s rule of statistical inference</h2>
+<p>The ruinous role of the <span class="math inline">\(p\)</span>-value in modern science can not be overstated. This one value is responsible for happiness and dispair in equal measure. Dicken’s Mr. Micawber had this to say about the role of money in life’s happiness:</p>
+<blockquote>
+<p>‘Annual income 20 pounds, annual expenditure 19 [pounds] 19 shillings and six pence, result happiness. Annual income 20 pounds, annual expenditure 20 pounds ought and six, result misery.’</p>
+</blockquote>
+<p>In science a corollary exists:</p>
+<blockquote>
+<p>‘<span class="math inline">\(p\)</span> below 0.05, result success, papers, grants, and tenure. <span class="math inline">\(p\)</span> above 0.05 result failure, misery, ignominy, and rejection.’</p>
+</blockquote>
+<p>The truth is that <span class="math inline">\(p &lt; 0.05\)</span> is an entirely arbitrary cut-off and is not in itself a helpful or meaningful value. Various scientific communities, led by publishing requirements, have accepted this a gold standard of truth against sense and often against rigorousness. With Bayesian tests we will be able to completely do away with <span class="math inline">\(p\)</span>-values and confidence intervals and in their place use a more evidence based approach to making inferences.</p>
 
+</div>
 </div>
             </section>
 

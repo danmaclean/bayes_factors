@@ -30,7 +30,7 @@ You need to install the following stuff for this book:
 
  1. R
  2. RStudio
- 3. Some R packages: `tidyverse` and `BayesFactor`
+ 3. Some R packages: `devtools`, `tidyverse` and `BayesFactor` and `simplebf`
  
 
 ## Installing R
@@ -49,7 +49,11 @@ In the RStudio console, type
 
 `install.packages(c("tidyverse", "BayesFactor"))`
 
-and the packages should install.
+and these packages should install. Once that is done, type 
+
+`devtools::install_github("danmaclean/simplebf")`
+
+to install the final package
 
 
 ```{r include=FALSE}

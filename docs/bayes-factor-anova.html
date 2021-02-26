@@ -24,7 +24,7 @@
 <meta name="author" content="Dan MacLean" />
 
 
-<meta name="date" content="2021-02-12" />
+<meta name="date" content="2021-02-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -145,7 +145,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#standard-packages"><i class="fa fa-check"></i><b>1.4.1</b> Standard packages</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a></li>
+<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a><ul>
+<li class="chapter" data-level="2.1" data-path="motivation.html"><a href="motivation.html#mr.-micawbers-rule-of-statistical-inference"><i class="fa fa-check"></i><b>2.1</b> Mr. Micawber’s rule of statistical inference</a></li>
+</ul></li>
 <li class="chapter" data-level="3" data-path="r-fundamentals.html"><a href="r-fundamentals.html"><i class="fa fa-check"></i><b>3</b> R Fundamentals</a><ul>
 <li class="chapter" data-level="3.1" data-path="r-fundamentals.html"><a href="r-fundamentals.html#about-this-chapter"><i class="fa fa-check"></i><b>3.1</b> About this chapter</a></li>
 <li class="chapter" data-level="3.2" data-path="r-fundamentals.html"><a href="r-fundamentals.html#working-with-r"><i class="fa fa-check"></i><b>3.2</b> Working with R</a></li>
@@ -184,7 +186,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6.2" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#the-effect-of-changing-the-prior"><i class="fa fa-check"></i><b>5.6.2</b> The effect of changing the prior</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html"><i class="fa fa-check"></i><b>6</b> Bayes Factor ANOVA</a></li>
+<li class="chapter" data-level="6" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html"><i class="fa fa-check"></i><b>6</b> Bayes Factor ANOVA</a><ul>
+<li class="chapter" data-level="6.1" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html#the-issue-of-multiplicity-in-frequentism-and-bayesianism"><i class="fa fa-check"></i><b>6.1</b> The issue of multiplicity in Frequentism and Bayesianism</a></li>
+<li class="chapter" data-level="6.2" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html#automating-bayesfactorttest-for-many-comparisions"><i class="fa fa-check"></i><b>6.2</b> Automating <code>BayesFactor::ttest()</code> for many comparisions</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="bayes-factor-chi2.html"><a href="bayes-factor-chi2.html"><i class="fa fa-check"></i><b>7</b> Bayes Factor <span class="math inline">\(\chi^2\)</span></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -209,7 +214,126 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="bayes-factor-anova" class="section level1">
 <h1><span class="header-section-number">Topic 6</span> Bayes Factor ANOVA</h1>
+<div id="the-issue-of-multiplicity-in-frequentism-and-bayesianism" class="section level2">
+<h2><span class="header-section-number">6.1</span> The issue of multiplicity in Frequentism and Bayesianism</h2>
+<p>The ANOVA is often seen to be a catch-all test that can be used for an experiment that has more than two samples in it. Experimenters often understand this to be true on the basis that ‘you shouldn’t do <span class="math inline">\(t\)</span>-tests for more than two samples by repeating the <span class="math inline">\(t\)</span>-test’. This is quite true and is a strategy for avoidance of the problem of multiplicity.</p>
+<p>Multiplicity or multiple testing occurs when we do lots of tests one after the other, in a batch. The more we do, the more likely we are to make an error in our conclusions (not in our working). This happens in Frequentist statistical tests because the <span class="math inline">\(p\)</span>-value expresses a fixed error rate that we are happy to accept.</p>
+<p>Recall that the <span class="math inline">\(t\)</span>-test evaluates two hypotheses</p>
+<p><span class="math inline">\(H_0 : \bar{x_1} - \bar{x_2} = 0\)</span></p>
+<p><span class="math inline">\(H_1 : \bar{x_1} - \bar{x_2} \neq 0\)</span></p>
+<p>and we set a level at which would reject <span class="math inline">\(H_0\)</span> usually <span class="math inline">\(p &lt; 0.05\)</span>. The <span class="math inline">\(p\)</span> reflects the proportion of times that the difference observed is seen in the null model by chance (so we see the difference 1 in 20 times by chance), in other words in a proportion of 0.95 of times we would reject the null correctly. Which is fine for just one comparison.</p>
+<p>If we do more than one test we must multiply these probabilities together, giving <span class="math inline">\(0.95 * 0.95 = 0.9025\)</span>. This is catastrophic, by doing just two tests we reduce the proportion of times we choose the correct hypothesis to 0.9025, down from 19/20 to 18/20, we make twice as many mistakes! For more tests this gets worse.</p>
+<p>Frequentist statistics have lots of corrections for this sort of problem and the ANOVA post-hoc tests are in part a way of doing that. The good news for those using Bayes Factors is that this problem does not exist. Because we don’t have a fixed error rate, it doesn’t get bigger when we do more tests. We are free to do as many hypothesis comparisons as we wish.</p>
+</div>
+<div id="automating-bayesfactorttest-for-many-comparisions" class="section level2">
+<h2><span class="header-section-number">6.2</span> Automating <code>BayesFactor::ttest()</code> for many comparisions</h2>
+<p>As there isn’t a need for a Bayes Factor analogue to the ANOVA and post-hoc tests, we can just use the <span class="math inline">\(t\)</span>-test analogue over and over again. If we have a multiple sample dataset we just need a book-keeping method to pull out the samples of interest.</p>
+<p>Let’s draft one with <code>dplyr</code> and the Plant Growth data set.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="bayes-factor-anova.html#cb50-1"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb50-2"><a href="bayes-factor-anova.html#cb50-2"></a><span class="kw">library</span>(BayesFactor)</span>
+<span id="cb50-3"><a href="bayes-factor-anova.html#cb50-3"></a></span>
+<span id="cb50-4"><a href="bayes-factor-anova.html#cb50-4"></a>small_df &lt;-<span class="st"> </span>PlantGrowth <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb50-5"><a href="bayes-factor-anova.html#cb50-5"></a><span class="st">    </span><span class="kw">filter</span>(group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ctrl&quot;</span>, <span class="st">&quot;trt1&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb50-6"><a href="bayes-factor-anova.html#cb50-6"></a><span class="st">    </span><span class="kw">droplevels</span>()</span>
+<span id="cb50-7"><a href="bayes-factor-anova.html#cb50-7"></a>  </span>
+<span id="cb50-8"><a href="bayes-factor-anova.html#cb50-8"></a><span class="kw">ttestBF</span>(<span class="dt">formula =</span> weight <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> small_df)</span></code></pre></div>
+<p>This pattern helps you extract the pairs of samples you need, though you would need to repeat it every time you wanted to analyse a new pair. A convenience function for the simple case that allows us to do <code>BayesFactor::ttestBF()</code> for all pairs in a specified column in a dataframe exists in the package <code>simplebf</code>. It works like this:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="bayes-factor-anova.html#cb51-1"></a><span class="kw">library</span>(simplebf)</span>
+<span id="cb51-2"><a href="bayes-factor-anova.html#cb51-2"></a>result &lt;-<span class="st"> </span><span class="kw">allpairs_ttestbf</span>(PlantGrowth, </span>
+<span id="cb51-3"><a href="bayes-factor-anova.html#cb51-3"></a>                           <span class="dt">group_col =</span> <span class="st">&quot;group&quot;</span>, <span class="dt">data_col =</span> <span class="st">&quot;weight&quot;</span>, </span>
+<span id="cb51-4"><a href="bayes-factor-anova.html#cb51-4"></a>                           <span class="dt">rscale =</span> <span class="st">&quot;medium&quot;</span>, </span>
+<span id="cb51-5"><a href="bayes-factor-anova.html#cb51-5"></a>                           <span class="dt">h_1 =</span> <span class="st">&quot;test_greater_than_control&quot;</span>)</span>
+<span id="cb51-6"><a href="bayes-factor-anova.html#cb51-6"></a></span>
+<span id="cb51-7"><a href="bayes-factor-anova.html#cb51-7"></a>knitr<span class="op">::</span><span class="kw">kable</span>(result, <span class="dt">digits =</span> <span class="dv">4</span>)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="8%" />
+<col width="14%" />
+<col width="17%" />
+<col width="8%" />
+<col width="7%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">control_group</th>
+<th align="left">test_group</th>
+<th align="left">h_0</th>
+<th align="left">h_1</th>
+<th align="right">BayesFactor</th>
+<th align="left">odds_h_1</th>
+<th align="left">summary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">trt1</td>
+<td align="left">ctrl</td>
+<td align="left">ctrl equal to trt1</td>
+<td align="left">ctrl greater than trt1</td>
+<td align="right">1.0834</td>
+<td align="left">1:1.0834</td>
+<td align="left">Anecdotal evidence for H_1 compared to H_0</td>
+</tr>
+<tr class="even">
+<td align="left">trt2</td>
+<td align="left">ctrl</td>
+<td align="left">ctrl equal to trt2</td>
+<td align="left">ctrl greater than trt2</td>
+<td align="right">0.1622</td>
+<td align="left">1:0.1622</td>
+<td align="left">Substantial evidence for H_0 compared to H_1</td>
+</tr>
+<tr class="odd">
+<td align="left">ctrl</td>
+<td align="left">trt1</td>
+<td align="left">trt1 equal to ctrl</td>
+<td align="left">trt1 greater than ctrl</td>
+<td align="right">0.2167</td>
+<td align="left">1:0.2167</td>
+<td align="left">Substantial evidence for H_0 compared to H_1</td>
+</tr>
+<tr class="even">
+<td align="left">trt2</td>
+<td align="left">trt1</td>
+<td align="left">trt1 equal to trt2</td>
+<td align="left">trt1 greater than trt2</td>
+<td align="right">0.1363</td>
+<td align="left">1:0.1363</td>
+<td align="left">Substantial evidence for H_0 compared to H_1</td>
+</tr>
+<tr class="odd">
+<td align="left">ctrl</td>
+<td align="left">trt2</td>
+<td align="left">trt2 equal to ctrl</td>
+<td align="left">trt2 greater than ctrl</td>
+<td align="right">3.3872</td>
+<td align="left">1:3.3872</td>
+<td align="left">Substantial evidence for H_1 compared to H_0</td>
+</tr>
+<tr class="even">
+<td align="left">trt1</td>
+<td align="left">trt2</td>
+<td align="left">trt2 equal to trt1</td>
+<td align="left">trt2 greater than trt1</td>
+<td align="right">12.6445</td>
+<td align="left">1:12.6445</td>
+<td align="left">Strong evidence for H_1 compared to H_0</td>
+</tr>
+</tbody>
+</table>
+<p>The results are pretty easy to read. Note we can set <code>rscale</code> values as in the <code>ttestBF()</code> and we can choose one of three values for <span class="math inline">\(H_1\)</span> <code>test_greater_than_control</code>, <code>test_less_than_control</code> and <code>test_not_equal_to_control</code>.</p>
 
+<div class="roundup">
+<ul>
+<li>Bayes Factors do not need multiple hypothesis corrections</li>
+<li><code>simplebf</code> is a package for automating the comparison of all groups in a single variable in a tidy dataframe</li>
+</ul>
+</div>
+
+
+</div>
 </div>
             </section>
 

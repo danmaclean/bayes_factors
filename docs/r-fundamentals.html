@@ -24,7 +24,7 @@
 <meta name="author" content="Dan MacLean" />
 
 
-<meta name="date" content="2021-02-12" />
+<meta name="date" content="2021-02-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -145,7 +145,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#standard-packages"><i class="fa fa-check"></i><b>1.4.1</b> Standard packages</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a></li>
+<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a><ul>
+<li class="chapter" data-level="2.1" data-path="motivation.html"><a href="motivation.html#mr.-micawbers-rule-of-statistical-inference"><i class="fa fa-check"></i><b>2.1</b> Mr. Micawber’s rule of statistical inference</a></li>
+</ul></li>
 <li class="chapter" data-level="3" data-path="r-fundamentals.html"><a href="r-fundamentals.html"><i class="fa fa-check"></i><b>3</b> R Fundamentals</a><ul>
 <li class="chapter" data-level="3.1" data-path="r-fundamentals.html"><a href="r-fundamentals.html#about-this-chapter"><i class="fa fa-check"></i><b>3.1</b> About this chapter</a></li>
 <li class="chapter" data-level="3.2" data-path="r-fundamentals.html"><a href="r-fundamentals.html#working-with-r"><i class="fa fa-check"></i><b>3.2</b> Working with R</a></li>
@@ -184,7 +186,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6.2" data-path="bayes-factor-t-tests.html"><a href="bayes-factor-t-tests.html#the-effect-of-changing-the-prior"><i class="fa fa-check"></i><b>5.6.2</b> The effect of changing the prior</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html"><i class="fa fa-check"></i><b>6</b> Bayes Factor ANOVA</a></li>
+<li class="chapter" data-level="6" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html"><i class="fa fa-check"></i><b>6</b> Bayes Factor ANOVA</a><ul>
+<li class="chapter" data-level="6.1" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html#the-issue-of-multiplicity-in-frequentism-and-bayesianism"><i class="fa fa-check"></i><b>6.1</b> The issue of multiplicity in Frequentism and Bayesianism</a></li>
+<li class="chapter" data-level="6.2" data-path="bayes-factor-anova.html"><a href="bayes-factor-anova.html#automating-bayesfactorttest-for-many-comparisions"><i class="fa fa-check"></i><b>6.2</b> Automating <code>BayesFactor::ttest()</code> for many comparisions</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="bayes-factor-chi2.html"><a href="bayes-factor-chi2.html"><i class="fa fa-check"></i><b>7</b> Bayes Factor <span class="math inline">\(\chi^2\)</span></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -269,30 +274,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## [1] 4</code></pre>
 <p>Often the result from a function will be more complicated than a simple number object, often it will be a vector (simple list), like from the <code>rnorm()</code> function that returns lists of random numbers</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="r-fundamentals.html#cb17-1"></a><span class="kw">rnorm</span>(<span class="dv">100</span>)</span></code></pre></div>
-<pre><code>##   [1] -9.972426e-01 -1.482956e+00  1.650577e+00  1.138153e+00 -2.071305e+00
-##   [6]  9.124360e-02 -5.819066e-01  1.310041e+00 -8.985738e-01 -7.218989e-01
-##  [11] -1.395323e+00  5.293902e-01  2.964479e-01  1.825127e+00 -1.968401e-01
-##  [16] -1.607259e-01 -7.317921e-01  2.148289e-01 -1.456497e+00  4.970737e-03
-##  [21]  5.950219e-01 -1.064831e-01 -5.316890e-01  1.065846e+00  5.109116e-01
-##  [26]  3.925613e-01 -1.393541e+00  1.099544e-01  1.998882e+00 -8.868973e-01
-##  [31] -2.764083e-01 -2.495115e-02  1.217125e+00  1.057745e+00  1.818372e-01
-##  [36]  9.911313e-03 -8.431830e-01  2.706699e-01 -1.953956e-01 -2.798128e-01
-##  [41] -5.348201e-01 -6.326751e-01  1.022335e+00 -1.939320e+00  6.720817e-01
-##  [46]  1.619832e-01  1.200403e+00  8.941331e-01  1.485717e+00 -1.264853e+00
-##  [51]  1.130463e+00 -2.878082e-01 -1.388940e+00  2.367974e+00  2.347175e-01
-##  [56] -4.184344e-02 -3.830404e-01 -2.375800e+00  5.148414e-04 -6.561655e-01
-##  [61] -1.030173e+00  7.001763e-01  1.084624e+00 -7.460632e-01 -3.353539e-01
-##  [66] -4.214859e-01 -7.576127e-01  1.430295e+00 -1.212788e+00 -8.740719e-01
-##  [71]  6.316591e-01  6.562689e-01 -1.164207e+00  1.629464e-01 -1.340122e+00
-##  [76] -1.904830e+00  2.838067e-01 -1.192528e-01  5.856986e-01  4.628667e-01
-##  [81] -4.081193e-01  1.030699e+00  2.364944e-01 -6.444024e-01 -1.102298e+00
-##  [86] -1.506727e-01 -2.289657e+00 -1.524322e+00 -4.939643e-01  3.800883e-01
-##  [91]  5.299234e-01  2.809062e-02 -2.212319e+00 -1.616090e-01  5.281928e-02
-##  [96] -5.990506e-05  6.103901e-01  3.677647e-01 -6.163759e-01  1.521904e+00</code></pre>
+<pre><code>##   [1] -0.682836143  0.372531487  0.035644758 -0.706245131  0.110580762
+##   [6]  1.741470227  1.826755907  0.470081347 -1.326647591 -0.005426016
+##  [11] -0.807392330 -0.375425816  0.377384438 -1.894004219  0.112593752
+##  [16]  0.084540170 -0.568306601 -1.396815398 -1.696946652  0.360059829
+##  [21] -0.603904807  0.334282930  0.675356562  1.035232732  0.230841722
+##  [26] -0.342501993 -0.312263429 -1.178160492  0.492672904 -0.212147397
+##  [31]  1.315248570 -0.084780853  0.405600111  0.551213581 -1.063973978
+##  [36]  1.705692524 -0.342880760 -1.581036463  1.698386957  1.005964324
+##  [41]  0.537970172  0.212026112  0.108886087  0.592466133  0.643332878
+##  [46]  2.880403988  0.716462999  1.161804999  1.699445499 -0.101283128
+##  [51]  0.744628880 -1.881039366 -0.934227361 -0.082643429 -0.880545829
+##  [56]  1.753139972 -1.508992318  0.859652034 -0.195927789 -0.501553677
+##  [61]  0.785927475 -0.622693515  0.087227330 -0.010083620  1.039349447
+##  [66] -0.338671962 -0.382649286  0.761693944  0.118667642 -0.094053110
+##  [71] -0.689698132 -1.505260715 -1.013158506  0.128767285  0.183220584
+##  [76] -0.657569938 -0.117937362  0.827585792  0.452229981  0.949436367
+##  [81]  0.356674867  0.424404148  0.336255656 -1.299494134 -0.310506320
+##  [86]  0.612427054 -1.217489056 -1.398879152  0.939736391  0.127453109
+##  [91] -1.616087074  0.799668436 -0.159638193 -0.746648264 -0.414043246
+##  [96]  0.338756883  0.700508975  0.829612376 -1.344618620  0.920800266</code></pre>
 <p>We can combine objects, variables and functions to do more complex stuff in R, here’s how we get the mean of 100 random numbers.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="r-fundamentals.html#cb19-1"></a>numbers &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>)</span>
 <span id="cb19-2"><a href="r-fundamentals.html#cb19-2"></a><span class="kw">mean</span>(numbers)</span></code></pre></div>
-<pre><code>## [1] 0.1104296</code></pre>
+<pre><code>## [1] -0.1192712</code></pre>
 <p>Here we created a vector object with <code>rnorm(100)</code> and assigned it to the variable <code>numbers</code>. We than used the <code>mean()</code> function, passing it the variable <code>numbers</code>. The <code>mean()</code> function returned the mean of the hundred random numbers.</p>
 </div>
 </div>
@@ -300,9 +305,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">3.4</span> Dataframes</h2>
 <p>One of the more common objects that R uses is a dataframe. The dataframe is a rectangular table-like object that contains data, think of it like a spreadsheet tab. Like the spreadsheet, the dataframe has rows and columns, the columns have names and the different columns can have different types of data in. Here’s a little one</p>
 <pre><code>##   names age    score
-## 1 Guido  24 81.15507
-## 2 Marty  45 58.08458
-## 3  Alan  11 87.52558</code></pre>
+## 1 Guido  24 48.02242
+## 2 Marty  45 22.78441
+## 3  Alan  11 96.86300</code></pre>
 <p>Usually we get a dataframe by loading in data from an external source or as a result from functions, occasionally we’ll want to hand make one, which can be done with various functions, <code>data.frame</code> being the most common.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="r-fundamentals.html#cb22-1"></a><span class="kw">data.frame</span>(</span>
 <span id="cb22-2"><a href="r-fundamentals.html#cb22-2"></a>  <span class="dt">names =</span> <span class="kw">c</span>(<span class="st">&quot;Guido&quot;</span>, <span class="st">&quot;Marty&quot;</span>, <span class="st">&quot;Alan&quot;</span>),</span>
