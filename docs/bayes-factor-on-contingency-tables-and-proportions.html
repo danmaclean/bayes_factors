@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Topic 6 Bayes Factor ANOVA | Bayesian Inference with Bayes Factors</title>
-  <meta name="description" content="Topic 6 Bayes Factor ANOVA | Bayesian Inference with Bayes Factors" />
+  <title>Topic 7 Bayes Factor on Contingency Tables and Proportions | Bayesian Inference with Bayes Factors</title>
+  <meta name="description" content="Topic 7 Bayes Factor on Contingency Tables and Proportions | Bayesian Inference with Bayes Factors" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Topic 6 Bayes Factor ANOVA | Bayesian Inference with Bayes Factors" />
+  <meta property="og:title" content="Topic 7 Bayes Factor on Contingency Tables and Proportions | Bayesian Inference with Bayes Factors" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Topic 6 Bayes Factor ANOVA | Bayesian Inference with Bayes Factors" />
+  <meta name="twitter:title" content="Topic 7 Bayes Factor on Contingency Tables and Proportions | Bayesian Inference with Bayes Factors" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="bayes-factor-t-tests.html"/>
-<link rel="next" href="bayes-factor-on-contingency-tables-and-proportions.html"/>
+<link rel="prev" href="bayes-factor-anova.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -222,65 +222,105 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bayes-factor-anova" class="section level1">
-<h1><span class="header-section-number">Topic 6</span> Bayes Factor ANOVA</h1>
-<div id="about-this-chapter-3" class="section level2">
-<h2><span class="header-section-number">6.1</span> About this chapter</h2>
+<div id="bayes-factor-on-contingency-tables-and-proportions" class="section level1">
+<h1><span class="header-section-number">Topic 7</span> Bayes Factor on Contingency Tables and Proportions</h1>
+<div id="about-this-chapter-4" class="section level2">
+<h2><span class="header-section-number">7.1</span> About this chapter</h2>
 <ol style="list-style-type: decimal">
 <li>Questions
 <ul>
-<li>How can I do an ANOVA?</li>
+<li>How can I do a categoric count based <span class="math inline">\(\chi^2\)</span> or proportional test with Bayes Factors?</li>
 </ul></li>
 <li>Objectives
 <ul>
-<li>Understand multiplicity is not a problem for Bayes Factors</li>
+<li>Perform <span class="math inline">\(\chi^2\)</span> on contingency tables of any size</li>
 </ul></li>
 <li>Keypoints
 <ul>
-<li>The package <code>simplebf</code> automates Bayes Factor <span class="math inline">\(t\)</span>-tests for many samples</li>
+<li><code>BayesFactor</code> and <code>simplebf</code> provide functions and automations for categorical count or frequency data</li>
+<li>These are useful for HR scoring data</li>
 </ul></li>
 </ol>
+<p>The <code>BayesFactor</code> package has some functions for performing other types of tests and returning a Bayes Factor. In this section we will briefly look at these.</p>
 </div>
-<div id="the-issue-of-multiplicity-in-frequentism-and-bayesianism" class="section level2">
-<h2><span class="header-section-number">6.2</span> The issue of multiplicity in Frequentism and Bayesianism</h2>
-<p>The ANOVA is often seen to be a catch-all test that can be used for an experiment that has more than two samples in it. Experimenters often understand this to be true on the basis that ‘you shouldn’t do <span class="math inline">\(t\)</span>-tests for more than two samples by repeating the <span class="math inline">\(t\)</span>-test’. This is quite true and is a strategy for avoidance of the problem of multiplicity.</p>
-<p>Multiplicity or multiple testing occurs when we do lots of tests one after the other, in a batch. The more we do, the more likely we are to make an error in our conclusions (not in our working). This happens in Frequentist statistical tests because the <span class="math inline">\(p\)</span>-value expresses a fixed error rate that we are happy to accept.</p>
-<p>Recall that the <span class="math inline">\(t\)</span>-test has two hypotheses (of which we test just one)</p>
-<p><span class="math inline">\(H_0 : \bar{x_1} - \bar{x_2} = 0\)</span></p>
-<p><span class="math inline">\(H_1 : \bar{x_1} - \bar{x_2} \neq 0\)</span></p>
-<p>and we set a level at which would reject <span class="math inline">\(H_0\)</span> usually <span class="math inline">\(p &lt; 0.05\)</span>. The <span class="math inline">\(p\)</span> reflects the proportion of times that the difference observed is seen in the null model by chance (so we see the difference 1 in 20 times by chance), in other words in a proportion of 0.95 of times we would reject the null correctly. Which is fine for just one comparison.</p>
-<p>If we do more than one test we must multiply these probabilities together, giving <span class="math inline">\(0.95 * 0.95 = 0.9025\)</span>. This is catastrophic, by doing just two tests we reduce the proportion of times we choose the correct hypothesis to 0.9025, down from 19/20 to 18/20, we make twice as many mistakes! For more tests this gets worse.</p>
-<p>Frequentist statistics have lots of corrections for this sort of problem and the ANOVA post-hoc tests are in part a way of doing that. The good news for those using Bayes Factors is that this problem does not exist. Because we don’t have a fixed error rate, it doesn’t get bigger when we do more tests. We are free to do as many hypothesis comparisons as we wish.</p>
+<div id="bayes-factor-chi2" class="section level2">
+<h2><span class="header-section-number">7.2</span> Bayes Factor <span class="math inline">\(\chi^2\)</span></h2>
+<p>A common question is whether proportions of counted things or frequency is different between samples. The one we typically learn first as biologists is Mendel’s pea data that led to his genetic insights, like this 2x2 table for flower colour (purple or white). Note that we have the counts of flower colour that were observed and expected counts that would come from a 3:1 Mendelian segregating cross.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb52-1"></a>mendel_data</span></code></pre></div>
+<pre><code>##            P   W
+## observed 459 141
+## expected 450 150</code></pre>
+<p>The <span class="math inline">\(\chi^2\)</span> test is the classical frequentist test performed to determine differences in proportions in a contingency table, and there is an equivalent Bayesian method in <code>BayesFactor</code>. We can run our data through the function <code>contingencyTableBF()</code> very easily, but it does need the data to be an R matrix object, not the more typical dataframe. We can change that easily with <code>as.matrix()</code>, then run the function.</p>
+<p>The arguments are important: <code>fixedMargin</code> describes whether the variable of interest is in the rows or columns of the table - here it is in the columns so we use <code>cols</code>; <code>sampleType</code> describes what the function should do in the Bayesian sampling process as it runs. This is highly technical and out of scope for what we want to discuss, so I’m going to gloss over it. The function documentation has more information if you want it (<code>?contingencyTableBF</code>) the option used here <code>indepMulti</code> is a good one to start with.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb54-1"></a>mendel_matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(mendel_data)</span>
+<span id="cb54-2"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb54-2"></a></span>
+<span id="cb54-3"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb54-3"></a><span class="kw">library</span>(BayesFactor)</span>
+<span id="cb54-4"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb54-4"></a><span class="kw">contingencyTableBF</span>(mendel_matrix, <span class="dt">sampleType =</span> <span class="st">&quot;indepMulti&quot;</span>, <span class="dt">fixedMargin=</span><span class="st">&#39;cols&#39;</span>)</span></code></pre></div>
+<pre><code>## Bayes factor analysis
+## --------------
+## [1] Non-indep. (a=1) : 0.1011097 ±0%
+## 
+## Against denominator:
+##   Null, independence, a = 1 
+## ---
+## Bayes factor type: BFcontingencyTable, independent multinomial</code></pre>
+<p>The hypotheses that are tested in this example are fixed and simple ones. Strictly <span class="math inline">\(H_0\)</span> is that the proportions in the table are equal and <span class="math inline">\(H_1\)</span> is that the proportions are not equal. So in effect the whole table is tested to see whether the observed counts are different to the expected counts. Here we see that the odds are 1:0.101 <em>against</em> <span class="math inline">\(H_1\)</span> so the conclusion is that the proportions are equal, that is our observed flower colour proportions match the expected.</p>
+<p>There isn’t a way to use different <span class="math inline">\(H_1\)</span>’s in the way that we did with the Bayes Factor <span class="math inline">\(t\)</span>-test, so we can’t test the explicit hypothesis that one is bigger (or smaller than the other).</p>
+<div id="converting-a-dataframe-to-a-contingency-table" class="section level3">
+<h3><span class="header-section-number">7.2.1</span> Converting a dataframe to a contingency table</h3>
+<p>In most of our work we’ve used tidy data (or case based data) in dataframes. The function we just learned uses a contingency table in a matrix, not a dataframe. Sometimes too, we will want to make a contingency table to see it. We can make a contingency table out of a dataframe with the <code>table</code> function, we just have to select the columns we want using the <code>$</code> notation.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb56-1"></a>hr_df</span></code></pre></div>
+<pre><code>## # A tibble: 9 x 3
+##   strain  replicate score
+##   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1 control         1     1
+## 2 mild            1     3
+## 3 deadly          1     4
+## 4 control         2     2
+## 5 mild            2     3
+## 6 deadly          2     4
+## 7 control         3     1
+## 8 mild            3     3
+## 9 deadly          3     3</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb58-1"></a>hr_cont_table &lt;-<span class="st"> </span><span class="kw">table</span>(hr_df<span class="op">$</span>score,hr_df<span class="op">$</span>strain) </span></code></pre></div>
 </div>
-<div id="automating-bayesfactorttest-for-many-comparisions" class="section level2">
-<h2><span class="header-section-number">6.3</span> Automating <code>BayesFactor::ttest()</code> for many comparisions</h2>
-<p>As there isn’t a need for a Bayes Factor analogue to the ANOVA and post-hoc tests, we can just use the <span class="math inline">\(t\)</span>-test analogue over and over again. If we have a multiple sample dataset we just need a book-keeping method to pull out the samples of interest.</p>
-<p>Let’s draft one with <code>dplyr</code> and the Plant Growth data set.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="bayes-factor-anova.html#cb50-1"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb50-2"><a href="bayes-factor-anova.html#cb50-2"></a><span class="kw">library</span>(BayesFactor)</span>
-<span id="cb50-3"><a href="bayes-factor-anova.html#cb50-3"></a></span>
-<span id="cb50-4"><a href="bayes-factor-anova.html#cb50-4"></a>small_df &lt;-<span class="st"> </span>PlantGrowth <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb50-5"><a href="bayes-factor-anova.html#cb50-5"></a><span class="st">    </span><span class="kw">filter</span>(group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ctrl&quot;</span>, <span class="st">&quot;trt1&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb50-6"><a href="bayes-factor-anova.html#cb50-6"></a><span class="st">    </span><span class="kw">droplevels</span>()</span>
-<span id="cb50-7"><a href="bayes-factor-anova.html#cb50-7"></a>  </span>
-<span id="cb50-8"><a href="bayes-factor-anova.html#cb50-8"></a><span class="kw">ttestBF</span>(<span class="dt">formula =</span> weight <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> small_df)</span></code></pre></div>
-<p>This pattern helps you extract the pairs of samples you need, though you would need to repeat it every time you wanted to analyse a new pair. A convenience function for the simple case that allows us to do <code>BayesFactor::ttestBF()</code> for all pairs in a specified column in a dataframe exists in the package <code>simplebf</code>. It works like this:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="bayes-factor-anova.html#cb51-1"></a><span class="kw">library</span>(simplebf)</span>
-<span id="cb51-2"><a href="bayes-factor-anova.html#cb51-2"></a>result &lt;-<span class="st"> </span><span class="kw">allpairs_ttestbf</span>(PlantGrowth, </span>
-<span id="cb51-3"><a href="bayes-factor-anova.html#cb51-3"></a>                           <span class="dt">group_col =</span> <span class="st">&quot;group&quot;</span>, <span class="dt">data_col =</span> <span class="st">&quot;weight&quot;</span>, </span>
-<span id="cb51-4"><a href="bayes-factor-anova.html#cb51-4"></a>                           <span class="dt">rscale =</span> <span class="st">&quot;medium&quot;</span>, </span>
-<span id="cb51-5"><a href="bayes-factor-anova.html#cb51-5"></a>                           <span class="dt">h_1 =</span> <span class="st">&quot;test_greater_than_control&quot;</span>)</span>
-<span id="cb51-6"><a href="bayes-factor-anova.html#cb51-6"></a></span>
-<span id="cb51-7"><a href="bayes-factor-anova.html#cb51-7"></a>knitr<span class="op">::</span><span class="kw">kable</span>(result, <span class="dt">digits =</span> <span class="dv">4</span>)</span></code></pre></div>
-<table>
+<div id="bigger-contingency-tables" class="section level3">
+<h3><span class="header-section-number">7.2.2</span> Bigger contingency tables</h3>
+<p>Sometime we’ll have a contingency table of counts that is larger than 2 x 2 IE we have more than two samples and more than two levels of a variable. For example we might have this HR scoring table.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb59-1"></a>hr_table</span></code></pre></div>
+<pre><code>##    
+##     control deadly mild
+##   1       2      0    0
+##   2       1      0    0
+##   3       0      1    3
+##   4       0      2    0</code></pre>
+<p>As we can see it shows an HR score in the rows and different strains in the columns. The numbers represent the count of times each score was seen in three replicated experiments. Because it’s a contingency table the replicates are merged in together. It is important therefore that the same amount of sampling was done in each strain.</p>
+<p>Here we would want to compare the two basic hypotheses of whether the proportions of observed scores are different between the strains are the same or not. Let’s go ahead and do that with <code>contingencyTableBF()</code></p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb61-1"></a><span class="kw">contingencyTableBF</span>(hr_table, <span class="dt">sampleType =</span> <span class="st">&quot;indepMulti&quot;</span>, <span class="dt">fixedMargin =</span> <span class="st">&quot;cols&quot;</span>)</span></code></pre></div>
+<pre><code>## Bayes factor analysis
+## --------------
+## [1] Non-indep. (a=1) : 11.55 ±0%
+## 
+## Against denominator:
+##   Null, independence, a = 1 
+## ---
+## Bayes factor type: BFcontingencyTable, independent multinomial</code></pre>
+<p>We get a clear answer, the Bayes Factor strongly favours the hypothesis that the proportions of scores across strains are not equal. Which is nice but it doesn’t go far enough - it doesn’t tell us which are bigger than others and whether the conclusion applies to all the possible pairings of strains. This is the same problem we had with the Bayes Factor <span class="math inline">\(t\)</span>-test and the solution is the same. We can just pull out each pair of strains and compare them one pair at a time. All we need is a book-keeping method to do this. The library <code>simplebf</code> contains one, so let’s use that.</p>
+<p>We can use the <code>allpairs_proportionbf()</code> function to get a data frame of Bayes Factors. If you pass this function a dataframe it will make the contingency table for you. You must specify which columns to use for the group and the counts. For easy reading we’ll send the output to the <code>knitr::kable()</code> function.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb63-1"></a><span class="kw">library</span>(simplebf)</span>
+<span id="cb63-2"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb63-2"></a><span class="kw">allpairs_proportionbf</span>(hr_df, </span>
+<span id="cb63-3"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb63-3"></a>                        <span class="dt">group_col =</span> <span class="st">&quot;strain&quot;</span>, <span class="dt">count_col =</span> <span class="st">&quot;score&quot;</span>, </span>
+<span id="cb63-4"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb63-4"></a>                        <span class="dt">sample_type =</span> <span class="st">&quot;indepMulti&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb63-5"><a href="bayes-factor-on-contingency-tables-and-proportions.html#cb63-5"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
+<table style="width:100%;">
 <colgroup>
-<col width="10%" />
-<col width="8%" />
-<col width="14%" />
-<col width="17%" />
-<col width="8%" />
 <col width="7%" />
-<col width="33%" />
+<col width="5%" />
+<col width="25%" />
+<col width="27%" />
+<col width="6%" />
+<col width="4%" />
+<col width="23%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -295,71 +335,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">trt1</td>
-<td align="left">ctrl</td>
-<td align="left">ctrl equal to trt1</td>
-<td align="left">ctrl greater than trt1</td>
-<td align="right">1.0834</td>
-<td align="left">1:1.0834</td>
-<td align="left">Anecdotal evidence for H_1 compared to H_0</td>
-</tr>
-<tr class="even">
-<td align="left">trt2</td>
-<td align="left">ctrl</td>
-<td align="left">ctrl equal to trt2</td>
-<td align="left">ctrl greater than trt2</td>
-<td align="right">0.1622</td>
-<td align="left">1:0.1622</td>
-<td align="left">Substantial evidence for H_0 compared to H_1</td>
-</tr>
-<tr class="odd">
-<td align="left">ctrl</td>
-<td align="left">trt1</td>
-<td align="left">trt1 equal to ctrl</td>
-<td align="left">trt1 greater than ctrl</td>
-<td align="right">0.2167</td>
-<td align="left">1:0.2167</td>
-<td align="left">Substantial evidence for H_0 compared to H_1</td>
-</tr>
-<tr class="even">
-<td align="left">trt2</td>
-<td align="left">trt1</td>
-<td align="left">trt1 equal to trt2</td>
-<td align="left">trt1 greater than trt2</td>
-<td align="right">0.1363</td>
-<td align="left">1:0.1363</td>
-<td align="left">Substantial evidence for H_0 compared to H_1</td>
-</tr>
-<tr class="odd">
-<td align="left">ctrl</td>
-<td align="left">trt2</td>
-<td align="left">trt2 equal to ctrl</td>
-<td align="left">trt2 greater than ctrl</td>
-<td align="right">3.3872</td>
-<td align="left">1:3.3872</td>
+<td align="left">control</td>
+<td align="left">mild</td>
+<td align="left">mild proportions equal to control proportions</td>
+<td align="left">mild proportions not equal to control proportions</td>
+<td align="right">5.6000</td>
+<td align="left">1:5.6</td>
 <td align="left">Substantial evidence for H_1 compared to H_0</td>
 </tr>
 <tr class="even">
-<td align="left">trt1</td>
-<td align="left">trt2</td>
-<td align="left">trt2 equal to trt1</td>
-<td align="left">trt2 greater than trt1</td>
-<td align="right">12.6445</td>
-<td align="left">1:12.6445</td>
-<td align="left">Strong evidence for H_1 compared to H_0</td>
+<td align="left">control</td>
+<td align="left">deadly</td>
+<td align="left">deadly proportions equal to control proportions</td>
+<td align="left">deadly proportions not equal to control proportions</td>
+<td align="right">4.2000</td>
+<td align="left">1:4.2</td>
+<td align="left">Substantial evidence for H_1 compared to H_0</td>
+</tr>
+<tr class="odd">
+<td align="left">mild</td>
+<td align="left">deadly</td>
+<td align="left">deadly proportions equal to mild proportions</td>
+<td align="left">deadly proportions not equal to mild proportions</td>
+<td align="right">2.1875</td>
+<td align="left">1:2.1875</td>
+<td align="left">Anecdotal evidence for H_1 compared to H_0</td>
 </tr>
 </tbody>
 </table>
-<p>The results are pretty easy to read. Note we can set <code>rscale</code> values as in the <code>ttestBF()</code> and we can choose one of three values for <span class="math inline">\(H_1\)</span> <code>test_greater_than_control</code>, <code>test_less_than_control</code> and <code>test_not_equal_to_control</code>.</p>
+<p>So we get a nice set of Bayesian Hypothesis test for proportion or contingency table data on our HR experiment.</p>
 
 <div class="roundup">
 <ul>
-<li>Bayes Factors do not need multiple hypothesis corrections</li>
-<li><code>simplebf</code> is a package for automating the comparison of all groups in a single variable in a tidy dataframe</li>
+<li>Bayes Factors can be used for proportion tests like the <span class="math inline">\(\chi^2\)</span></li>
+<li>The <code>BayesFactor</code> and <code>simplebf</code> packages are useful tools implementing these</li>
 </ul>
 </div>
 
 
+</div>
 </div>
 </div>
             </section>
@@ -367,8 +381,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="bayes-factor-t-tests.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="bayes-factor-on-contingency-tables-and-proportions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="bayes-factor-anova.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

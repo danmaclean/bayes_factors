@@ -1,5 +1,20 @@
 # Bayes Factor $t$-tests
 
+## About this chapter
+
+1. Questions
+    * How can I do compare two continuous samples with Bayes Factors?
+    * How can I specify a directional hypothesis?
+    * How much difference does the prior make?
+2. Objectives
+    * Understand how a Bayes Factor $t$-test can be done in R
+    * Consider how $p$ and the Bayes Factor are not contradictory
+    * Understand that hypothesis and prior selection is important
+3. Keypoints
+    * The `BayesFactor` package provides functions for Bayes Factor analysis
+    * Bayes Factors and $p$-values ask very different questions
+    * One-tailed tests are possible and may be better options
+
 In this section we'll look at how we can do a $t$-test-like two sample comparison with Bayes Factors. The process is surprisingly straight forward but does need us to pay attention to the weaknesses of the Bayes method - specifically choosing the prior probability distribution. To actually do the tests we'll use the `ttestBF()` in the `BayesFactor` package.
 
 ## A Frequentist $t$-test
@@ -87,11 +102,11 @@ We get a clear answer, the output on the line marked`[1]` is a Bayes Factor and 
 
 ## Comparing $p$ and the Bayes Factor for the PlantGrowth data
 
-Comparing to our table of interpretation of Bayes Factors, we see that this corresponds only to 'Anecdotal Evidence' in favour of $H_1$. Do we find this surprising given that the $p$-value from the $t$-test was significant? Does this mean that the two methods disagree? Strictly speaking, no, we shouldn't be surprised and no they don't disagree.
+Comparing to our table of interpretation of Bayes Factors, we see that this corresponds only to 'Anecdotal Evidence' in favour of $H_1$, which sounds weak and like really there isn't much evidence for the idea that the two samples are different. Do we find this surprising given that the $p$-value from the $t$-test was significant? Does this mean that the two methods disagree? Strictly speaking, no, we shouldn't be surprised and no they don't disagree.
 
 It's a bit of an apples and oranges situation. The two values are answers to very different questions.
 
-As we've said before the frequentist $p$-value only measures the proportion of times a difference of the measured size would occur under some presumed background model. It does not measure the evidence that the hypothesis is true even though that is how many people try to interpret it. $p$ only tells us how often we would be wrong if we reject $H_0$. As a result many philosophers have stated that $p$ based significance is a fundamentally uninteresting measure - who cares how often a difference occurs in some ideal world - what is important is the relative fit of the competing hypotheses to the data and that this measure of the strength of evidence per hypothesis is more in line with the interests of researchers.
+As we've said before the frequentist $p$-value only measures the proportion of times a difference of the measured size would occur under some presumed background model. It does not measure the evidence that the hypothesis is true even though that is how many people try to interpret it. $p$ only tells us how often we would be wrong if we reject $H_0$. As a result, many philosophers have stated that $p$ based significance is a fundamentally uninteresting measure - who cares how often a difference occurs in some ideal world - what is important is the relative fit of the competing hypotheses to the data and that this measure of the strength of evidence per hypothesis is more in line with the interests of researchers.
 
 Taken together our $p$-value states that the difference between the means of `trt2` and `ctrl` we observed occurs by chance in a normal distribution less than 0.05% of the time and the Bayes Factor tells us that the odds that the data favour the idea that `trt2` is not the same as `ctrl` are only 1.7 times greater than the idea that `trt2` and `ctrl` are equal. We can see that the two methods do not contradict. 
 

@@ -1,5 +1,20 @@
 # Bayesian Inference
 
+## About this chapter
+
+1. Questions
+    * What is probability?
+    * What does Bayes Theorem do?
+    * How can we compare hypotheses about data?
+2. Objectives
+    * Understand the differences between Frequentist and Bayesian probability
+    * Get an appreciation of Bayes Theorem
+    * Understand what a Bayes Factor represents
+3. Keypoints
+    * Probability can be based on frequency of events _or_ the level of knowledge we have about a thing
+    * Bayes Theorem gives a likelihood based on evidences that can change
+    * Bayes Factors are useful in comparing hypothesis about the same evidence
+
 ## Frequentist and Bayesian Interpretations of Probability
 
 It may seem like a strange question to ask, but what, exactly, is probability? Whatever it is it certainly isn't a solid thing that we could carry in a bucket.  Probability is a strange and often ill-defined concept that can get very confusing when one starts to think deeply about it. When asked what probability is people will generally start to talk about vague concepts like chance or likelihood or randomness or fate, even. Most people will give examples of coins being thrown or dice being rolled. This ephemerality is no good when we want to use probability so when it comes to working with probability statisticians needed to develop very precise definitions.  It turns out that different ways of thinking about likelihoods can result in very different definitions of probability. 
@@ -110,8 +125,8 @@ We can  use Bayesian Inference through a tool known as Bayes Factors. Bayes Fact
 
 Bayes Factors make a ratio of the result of one model or hypothesis over another, resulting in a single quantity that we can examine. Consider that our hypotheses above have been put through the process and a result gained thus
 
-  * $H_0 : \bar{x}_1 < \bar{x}_2 = 0.3$ 
-  * $H_1 : \bar{x}_1 > \bar{x}_2 = 0.9$
+  * $H_0 : \bar{x}_1 < \bar{x}_2 \leadsto Posterior = 0.2$ 
+  * $H_1 : \bar{x}_1 > \bar{x}_2 \leadsto Posterior = 0.6$
   
 We can clearly see that $H_1$ has 3 times more support than $H_0$ and we would want to accept that as a better explanation of our data. 
 

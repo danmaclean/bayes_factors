@@ -1,5 +1,13 @@
 # Bayes Factor ANOVA
 
+## About this chapter
+
+1. Questions
+    * How can I do an ANOVA?
+2. Objectives
+    * Understand multiplicity is not a problem for Bayes Factors
+3. Keypoints
+    * The package `simplebf` automates Bayes Factor $t$-tests for many samples
 
 ## The issue of multiplicity in Frequentism and Bayesianism
 
@@ -7,7 +15,7 @@ The ANOVA is often seen to be a catch-all test that can be used for an experimen
 
 Multiplicity or multiple testing occurs when we do lots of tests one after the other, in a batch. The more we do, the more likely we are to make an error in our conclusions (not in our working). This happens in Frequentist statistical tests because the $p$-value expresses a fixed error rate that we are happy to accept.
 
-Recall that the $t$-test evaluates two hypotheses
+Recall that the $t$-test has two hypotheses (of which we test just one)
 
 $H_0 : \bar{x_1} - \bar{x_2} = 0$
 

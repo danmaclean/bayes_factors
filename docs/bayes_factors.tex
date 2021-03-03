@@ -170,7 +170,7 @@ fonttitle=\bfseries] }
 
 \title{Bayesian Inference with Bayes Factors}
 \author{Dan MacLean}
-\date{2021-02-26}
+\date{2021-03-03}
 
 \begin{document}
 \maketitle
@@ -228,7 +228,7 @@ Follow this link and install the right version for your operating system \url{ht
 
 In the RStudio console, type
 
-\texttt{install.packages(c("tidyverse",\ "BayesFactor"))}
+\texttt{install.packages(c("tidyverse",\ "devtools",\ "BayesFactor"))}
 
 and these packages should install. Once that is done, type
 
@@ -239,30 +239,33 @@ to install the final package
 \hypertarget{motivation}{%
 \chapter{Motivation}\label{motivation}}
 
-The sort of statistics that most experimental science students are taught are called `Frequentist Statistics'. They include the \(t\)-tests, ANOVA and \(\chi^2\)-tests and the linear models that we have studied already.
-
-The inferential approach in the Frequentist paradigm is often criticised for being weak and is often abused. Although the abuse is as much a consequence of convention in the scientific literature and in scientific publishing, the misinterpretation of \(p\)-values by generations of scientists as it is the philosophical weakness of the methods themselves, the weaknesses persist and over time other paradigms have emerged.
-
-We have seen an alternative in Estimation Statistics, in this book we will look at another - Bayesian Inference and using Bayes Factors to compare levels of evidence for one hypothesis over another, rather than just accepting or rejecting a simplistic null hypothesis.
-
-The advantage of this will be that we can much more directly select between specific hypotheses that might describe our data. This will give us a much clearer idea about a question that we instinctively want to answer when we do statistics - `Which hypothesis is most likely true?', we will see that we can formulate this in lots of ways, but in general the hypotheses we want to compare will be something along the lines of some measured quantity being different in different samples. With Frequentist Inference we can only ask the roundabout question, `How often does the difference we observe occur by chance?' and if it isn't likely, say so. With Bayes Factors we will be able to compare directly competing hypotheses and reject the least likely absolutely.
-
 \hypertarget{mr.-micawbers-rule-of-statistical-inference}{%
 \section{Mr.~Micawber's rule of statistical inference}\label{mr.-micawbers-rule-of-statistical-inference}}
 
-The ruinous role of the \(p\)-value in modern science can not be overstated. This one value is responsible for happiness and dispair in equal measure. Dicken's Mr.~Micawber had this to say about the role of money in life's happiness:
+We really do need to move away from \(p\)-values as a gold-standard of truth in experimental science. The ruinous role of the \(p\)-value in modern science can not be overstated. This one value is responsible for happiness and despair in equal measure. They say money is the root of all unhappiness and Dicken's Mr.~Micawber had this to say about the role of money in life:
 
 \begin{quote}
 `Annual income 20 pounds, annual expenditure 19 {[}pounds{]} 19 shillings and six pence, result happiness. Annual income 20 pounds, annual expenditure 20 pounds ought and six, result misery.'
 \end{quote}
 
-In science a corollary exists:
+in science a corollary exists:
 
 \begin{quote}
 `\(p\) below 0.05, result success, papers, grants, and tenure. \(p\) above 0.05 result failure, misery, ignominy, and rejection.'
 \end{quote}
 
-The truth is that \(p < 0.05\) is an entirely arbitrary cut-off and is not in itself a helpful or meaningful value. Various scientific communities, led by publishing requirements, have accepted this a gold standard of truth against sense and often against rigorousness. With Bayesian tests we will be able to completely do away with \(p\)-values and confidence intervals and in their place use a more evidence based approach to making inferences.
+The truth is that \(p < 0.05\) is an entirely arbitrary cut-off and is not in itself a helpful or meaningful value. Various scientific communities, led by publishing requirements, have accepted \(p < 0.05\) as a gold standard of truth against sense and often against rigorousness. With Bayesian tests we will be able to completely do away with \(p\)-values and confidence intervals and in their place use a more evidence based approach to making inferences.
+
+\hypertarget{learning-to-select-hypotheses-using-bayesian-approaches}{%
+\section{Learning to select hypotheses using Bayesian approaches}\label{learning-to-select-hypotheses-using-bayesian-approaches}}
+
+The sort of statistics that most experimental science students are taught are called `Frequentist Statistics'. They include the \(t\)-tests, ANOVA and \(\chi^2\)-tests and the linear models that we have studied already.
+
+The inferential approach (how we make decisions about data) in the Frequentist paradigm is often criticised for being weak and is often abused. Although the abuse is as much a consequence of convention in the scientific literature and in scientific publishing, the misinterpretation of \(p\)-values by generations of scientists as it is the philosophical weakness of the methods themselves, the weaknesses persist and over time other paradigms have emerged.
+
+We have seen an alternative in Estimation Statistics, in this course we will look at another - Bayesian Inference. We will use Bayes Factors to compare levels of evidence for one hypothesis over another, rather than just accepting or rejecting a simplistic null hypothesis.
+
+The advantage of this will be that we can much more directly select between specific hypotheses that might describe our data. This will give us a much clearer idea about a question that we instinctively want to answer when we do statistics - `Which hypothesis is most likely true?', we will see that we can formulate this in lots of ways, but in general the hypotheses we want to compare will be something along the lines of some measured quantity being different in different samples. With Frequentist Inference we can only ask the roundabout question, `How often does the difference we observe occur by chance?' and if it isn't likely, say so. With Bayes Factors we will be able to compare directly competing hypotheses and reject the least likely absolutely.
 
 \hypertarget{r-fundamentals}{%
 \chapter{R Fundamentals}\label{r-fundamentals}}
@@ -435,26 +438,26 @@ Often the result from a function will be more complicated than a simple number o
 \end{Shaded}
 
 \begin{verbatim}
-##   [1]  0.936905913 -0.103490585  0.601901635 -1.309085616  0.564638294
-##   [6]  0.267127063 -0.400240579 -0.654151845 -0.450170778  0.338838970
-##  [11] -0.989585689  0.419595625 -0.240858186  2.404041472  1.180637752
-##  [16]  0.590247907 -0.069895976  0.079707488 -0.644526101 -0.971180781
-##  [21] -0.838333345 -1.680202033 -2.649885329  2.056610610 -0.470569216
-##  [26] -0.153956418 -1.792175988 -0.705860230 -0.464968544  1.019102667
-##  [31]  0.201428875 -0.663224468  0.617287951  0.011835638  0.527002595
-##  [36]  1.732674465 -1.356514094  0.738381432  0.466658514  0.939965374
-##  [41]  0.781144290 -1.064034494  0.770553579  0.359676312 -1.178701854
-##  [46] -0.646289102  1.304981995  3.862204576  1.237525073 -1.358827407
-##  [51] -0.220656466 -0.095544902  1.303883202 -0.221882459  0.237920562
-##  [56]  0.235301685  0.021583699 -0.266475767  0.312779309 -2.148342004
-##  [61] -0.476629916  0.089607342  0.876640985  1.522469616  0.205839722
-##  [66] -0.126076616  0.254248409  0.228843279 -0.651086202 -1.835851485
-##  [71]  1.774091644 -0.787698073  0.274094218  0.956341450  1.229108117
-##  [76] -0.673616587 -0.884185721 -1.189945929  0.192763676 -0.319179938
-##  [81] -0.009700152 -0.853660843 -0.018221553 -0.296503281  2.548632305
-##  [86]  1.183562021  1.072591876  0.748579467 -1.343133771 -2.008902199
-##  [91]  0.258094239 -1.179286813 -0.446642805  0.523689943  0.239137916
-##  [96]  0.015442632 -1.653221495  0.452042942 -1.908463402  0.373355646
+##   [1] -0.049885282  1.270584212  0.797462441  0.465722379 -0.369924286
+##   [6] -0.459561716 -0.447608851  2.145641022 -1.095624405  0.367848480
+##  [11] -1.262783346 -0.307719066  0.679461240 -0.123659119 -1.997011501
+##  [16]  0.536039248 -0.705670746  1.494103968  0.158163144 -1.217636177
+##  [21] -1.313132144  1.255012509 -0.748925886 -0.725726403 -0.035317880
+##  [26]  0.985956058  0.008657156  1.109026623 -1.777462419 -1.216127378
+##  [31] -0.703466946 -0.264061698  1.242463863  1.243173082  2.581177187
+##  [36]  0.345252844 -0.672772657  1.119360603 -0.579203077 -1.693862596
+##  [41] -0.162001776 -0.478942066 -2.210744537  0.289136091 -0.797079058
+##  [46] -1.172711182  0.236676839  0.738499852 -0.656039510 -0.686952806
+##  [51]  0.197099051  1.996565059 -0.467590312  0.875710064  1.107877775
+##  [56] -0.284758938  0.787981182  1.464123799  0.634736102 -0.094614574
+##  [61]  0.221175301 -0.471532478 -0.798274788 -2.013496644 -1.054848841
+##  [66]  1.167303807 -2.740434240 -0.252747507 -1.081027056 -1.256887751
+##  [71]  1.152733987  0.767035978  0.605015748 -1.074426668 -1.647779808
+##  [76] -0.218253640 -1.573908314 -0.456003963  0.390359078 -0.238416304
+##  [81] -0.158573846 -0.645208404  0.209870562 -0.490466613  1.493137881
+##  [86]  1.091973035  1.615399566  0.844028669  0.052255027 -1.230333314
+##  [91]  0.796016738  0.106064698 -0.724492593  2.296869328  0.714089944
+##  [96] -1.027804167 -0.794503548 -0.263306800 -1.286584057 -2.654550533
 \end{verbatim}
 
 We can combine objects, variables and functions to do more complex stuff in R, here's how we get the mean of 100 random numbers.
@@ -467,7 +470,7 @@ We can combine objects, variables and functions to do more complex stuff in R, h
 \end{Shaded}
 
 \begin{verbatim}
-## [1] -0.225305
+## [1] 0.1275872
 \end{verbatim}
 
 Here we created a vector object with \texttt{rnorm(100)} and assigned it to the variable \texttt{numbers}. We than used the \texttt{mean()} function, passing it the variable \texttt{numbers}. The \texttt{mean()} function returned the mean of the hundred random numbers.
@@ -479,9 +482,9 @@ One of the more common objects that R uses is a dataframe. The dataframe is a re
 
 \begin{verbatim}
 ##   names age    score
-## 1 Guido  24 39.43087
-## 2 Marty  45 50.13704
-## 3  Alan  11 78.65055
+## 1 Guido  24 43.34179
+## 2 Marty  45 86.77330
+## 3  Alan  11 39.47193
 \end{verbatim}
 
 Usually we get a dataframe by loading in data from an external source or as a result from functions, occasionally we'll want to hand make one, which can be done with various functions, \texttt{data.frame} being the most common.
@@ -534,6 +537,50 @@ Complete the interactive tutorial online \url{https://danmaclean.shinyapps.io/r-
 
 \hypertarget{bayesian-inference}{%
 \chapter{Bayesian Inference}\label{bayesian-inference}}
+
+\hypertarget{about-this-chapter-1}{%
+\section{About this chapter}\label{about-this-chapter-1}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Questions
+
+  \begin{itemize}
+  \tightlist
+  \item
+    What is probability?
+  \item
+    What does Bayes Theorem do?
+  \item
+    How can we compare hypotheses about data?
+  \end{itemize}
+\item
+  Objectives
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Understand the differences between Frequentist and Bayesian probability
+  \item
+    Get an appreciation of Bayes Theorem
+  \item
+    Understand what a Bayes Factor represents
+  \end{itemize}
+\item
+  Keypoints
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Probability can be based on frequency of events \emph{or} the level of knowledge we have about a thing
+  \item
+    Bayes Theorem gives a likelihood based on evidences that can change
+  \item
+    Bayes Factors are useful in comparing hypothesis about the same evidence
+  \end{itemize}
+\end{enumerate}
 
 \hypertarget{frequentist-and-bayesian-interpretations-of-probability}{%
 \section{Frequentist and Bayesian Interpretations of Probability}\label{frequentist-and-bayesian-interpretations-of-probability}}
@@ -674,9 +721,9 @@ Bayes Factors make a ratio of the result of one model or hypothesis over another
 \begin{itemize}
 \tightlist
 \item
-  \(H_0 : \bar{x}_1 < \bar{x}_2 = 0.3\)
+  \(H_0 : \bar{x}_1 < \bar{x}_2 \leadsto Posterior = 0.2\)
 \item
-  \(H_1 : \bar{x}_1 > \bar{x}_2 = 0.9\)
+  \(H_1 : \bar{x}_1 > \bar{x}_2 \leadsto Posterior = 0.6\)
 \end{itemize}
 
 We can clearly see that \(H_1\) has 3 times more support than \(H_0\) and we would want to accept that as a better explanation of our data.
@@ -721,6 +768,50 @@ The \citet{wagenmakers2011} article is fun if you can get hold of it. It's a com
 
 \hypertarget{bayes-factor-t-tests}{%
 \chapter{\texorpdfstring{Bayes Factor \(t\)-tests}{Bayes Factor t-tests}}\label{bayes-factor-t-tests}}
+
+\hypertarget{about-this-chapter-2}{%
+\section{About this chapter}\label{about-this-chapter-2}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Questions
+
+  \begin{itemize}
+  \tightlist
+  \item
+    How can I do compare two continuous samples with Bayes Factors?
+  \item
+    How can I specify a directional hypothesis?
+  \item
+    How much difference does the prior make?
+  \end{itemize}
+\item
+  Objectives
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Understand how a Bayes Factor \(t\)-test can be done in R
+  \item
+    Consider how \(p\) and the Bayes Factor are not contradictory
+  \item
+    Understand that hypothesis and prior selection is important
+  \end{itemize}
+\item
+  Keypoints
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The \texttt{BayesFactor} package provides functions for Bayes Factor analysis
+  \item
+    Bayes Factors and \(p\)-values ask very different questions
+  \item
+    One-tailed tests are possible and may be better options
+  \end{itemize}
+\end{enumerate}
 
 In this section we'll look at how we can do a \(t\)-test-like two sample comparison with Bayes Factors. The process is surprisingly straight forward but does need us to pay attention to the weaknesses of the Bayes method - specifically choosing the prior probability distribution. To actually do the tests we'll use the \texttt{ttestBF()} in the \texttt{BayesFactor} package.
 
@@ -893,11 +984,11 @@ We get a clear answer, the output on the line marked\texttt{{[}1{]}} is a Bayes 
 \hypertarget{comparing-p-and-the-bayes-factor-for-the-plantgrowth-data}{%
 \section{\texorpdfstring{Comparing \(p\) and the Bayes Factor for the PlantGrowth data}{Comparing p and the Bayes Factor for the PlantGrowth data}}\label{comparing-p-and-the-bayes-factor-for-the-plantgrowth-data}}
 
-Comparing to our table of interpretation of Bayes Factors, we see that this corresponds only to `Anecdotal Evidence' in favour of \(H_1\). Do we find this surprising given that the \(p\)-value from the \(t\)-test was significant? Does this mean that the two methods disagree? Strictly speaking, no, we shouldn't be surprised and no they don't disagree.
+Comparing to our table of interpretation of Bayes Factors, we see that this corresponds only to `Anecdotal Evidence' in favour of \(H_1\), which sounds weak and like really there isn't much evidence for the idea that the two samples are different. Do we find this surprising given that the \(p\)-value from the \(t\)-test was significant? Does this mean that the two methods disagree? Strictly speaking, no, we shouldn't be surprised and no they don't disagree.
 
 It's a bit of an apples and oranges situation. The two values are answers to very different questions.
 
-As we've said before the frequentist \(p\)-value only measures the proportion of times a difference of the measured size would occur under some presumed background model. It does not measure the evidence that the hypothesis is true even though that is how many people try to interpret it. \(p\) only tells us how often we would be wrong if we reject \(H_0\). As a result many philosophers have stated that \(p\) based significance is a fundamentally uninteresting measure - who cares how often a difference occurs in some ideal world - what is important is the relative fit of the competing hypotheses to the data and that this measure of the strength of evidence per hypothesis is more in line with the interests of researchers.
+As we've said before the frequentist \(p\)-value only measures the proportion of times a difference of the measured size would occur under some presumed background model. It does not measure the evidence that the hypothesis is true even though that is how many people try to interpret it. \(p\) only tells us how often we would be wrong if we reject \(H_0\). As a result, many philosophers have stated that \(p\) based significance is a fundamentally uninteresting measure - who cares how often a difference occurs in some ideal world - what is important is the relative fit of the competing hypotheses to the data and that this measure of the strength of evidence per hypothesis is more in line with the interests of researchers.
 
 Taken together our \(p\)-value states that the difference between the means of \texttt{trt2} and \texttt{ctrl} we observed occurs by chance in a normal distribution less than 0.05\% of the time and the Bayes Factor tells us that the odds that the data favour the idea that \texttt{trt2} is not the same as \texttt{ctrl} are only 1.7 times greater than the idea that \texttt{trt2} and \texttt{ctrl} are equal. We can see that the two methods do not contradict.
 
@@ -1106,6 +1197,38 @@ Indeed we do get stronger odds for the alternative hypothesis in the \texttt{med
 \hypertarget{bayes-factor-anova}{%
 \chapter{Bayes Factor ANOVA}\label{bayes-factor-anova}}
 
+\hypertarget{about-this-chapter-3}{%
+\section{About this chapter}\label{about-this-chapter-3}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Questions
+
+  \begin{itemize}
+  \tightlist
+  \item
+    How can I do an ANOVA?
+  \end{itemize}
+\item
+  Objectives
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Understand multiplicity is not a problem for Bayes Factors
+  \end{itemize}
+\item
+  Keypoints
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The package \texttt{simplebf} automates Bayes Factor \(t\)-tests for many samples
+  \end{itemize}
+\end{enumerate}
+
 \hypertarget{the-issue-of-multiplicity-in-frequentism-and-bayesianism}{%
 \section{The issue of multiplicity in Frequentism and Bayesianism}\label{the-issue-of-multiplicity-in-frequentism-and-bayesianism}}
 
@@ -1113,7 +1236,7 @@ The ANOVA is often seen to be a catch-all test that can be used for an experimen
 
 Multiplicity or multiple testing occurs when we do lots of tests one after the other, in a batch. The more we do, the more likely we are to make an error in our conclusions (not in our working). This happens in Frequentist statistical tests because the \(p\)-value expresses a fixed error rate that we are happy to accept.
 
-Recall that the \(t\)-test evaluates two hypotheses
+Recall that the \(t\)-test has two hypotheses (of which we test just one)
 
 \(H_0 : \bar{x_1} - \bar{x_2} = 0\)
 
@@ -1189,8 +1312,200 @@ The results are pretty easy to read. Note we can set \texttt{rscale} values as i
 \end{itemize}
 \end{roundup}
 
+\hypertarget{bayes-factor-on-contingency-tables-and-proportions}{%
+\chapter{Bayes Factor on Contingency Tables and Proportions}\label{bayes-factor-on-contingency-tables-and-proportions}}
+
+\hypertarget{about-this-chapter-4}{%
+\section{About this chapter}\label{about-this-chapter-4}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Questions
+
+  \begin{itemize}
+  \tightlist
+  \item
+    How can I do a categoric count based \(\chi^2\) or proportional test with Bayes Factors?
+  \end{itemize}
+\item
+  Objectives
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Perform \(\chi^2\) on contingency tables of any size
+  \end{itemize}
+\item
+  Keypoints
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{BayesFactor} and \texttt{simplebf} provide functions and automations for categorical count or frequency data
+  \item
+    These are useful for HR scoring data
+  \end{itemize}
+\end{enumerate}
+
+The \texttt{BayesFactor} package has some functions for performing other types of tests and returning a Bayes Factor. In this section we will briefly look at these.
+
 \hypertarget{bayes-factor-chi2}{%
-\chapter{\texorpdfstring{Bayes Factor \(\chi^2\)}{Bayes Factor \textbackslash chi\^{}2}}\label{bayes-factor-chi2}}
+\section{\texorpdfstring{Bayes Factor \(\chi^2\)}{Bayes Factor \textbackslash chi\^{}2}}\label{bayes-factor-chi2}}
+
+A common question is whether proportions of counted things or frequency is different between samples. The one we typically learn first as biologists is Mendel's pea data that led to his genetic insights, like this 2x2 table for flower colour (purple or white). Note that we have the counts of flower colour that were observed and expected counts that would come from a 3:1 Mendelian segregating cross.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mendel_data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            P   W
+## observed 459 141
+## expected 450 150
+\end{verbatim}
+
+The \(\chi^2\) test is the classical frequentist test performed to determine differences in proportions in a contingency table, and there is an equivalent Bayesian method in \texttt{BayesFactor}. We can run our data through the function \texttt{contingencyTableBF()} very easily, but it does need the data to be an R matrix object, not the more typical dataframe. We can change that easily with \texttt{as.matrix()}, then run the function.
+
+The arguments are important: \texttt{fixedMargin} describes whether the variable of interest is in the rows or columns of the table - here it is in the columns so we use \texttt{cols}; \texttt{sampleType} describes what the function should do in the Bayesian sampling process as it runs. This is highly technical and out of scope for what we want to discuss, so I'm going to gloss over it. The function documentation has more information if you want it (\texttt{?contingencyTableBF}) the option used here \texttt{indepMulti} is a good one to start with.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mendel_matrix <-}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(mendel_data)}
+
+\KeywordTok{library}\NormalTok{(BayesFactor)}
+\KeywordTok{contingencyTableBF}\NormalTok{(mendel_matrix, }\DataTypeTok{sampleType =} \StringTok{"indepMulti"}\NormalTok{, }\DataTypeTok{fixedMargin=}\StringTok{'cols'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Bayes factor analysis
+## --------------
+## [1] Non-indep. (a=1) : 0.1011097 ±0%
+## 
+## Against denominator:
+##   Null, independence, a = 1 
+## ---
+## Bayes factor type: BFcontingencyTable, independent multinomial
+\end{verbatim}
+
+The hypotheses that are tested in this example are fixed and simple ones. Strictly \(H_0\) is that the proportions in the table are equal and \(H_1\) is that the proportions are not equal. So in effect the whole table is tested to see whether the observed counts are different to the expected counts. Here we see that the odds are 1:0.101 \emph{against} \(H_1\) so the conclusion is that the proportions are equal, that is our observed flower colour proportions match the expected.
+
+There isn't a way to use different \(H_1\)'s in the way that we did with the Bayes Factor \(t\)-test, so we can't test the explicit hypothesis that one is bigger (or smaller than the other).
+
+\hypertarget{converting-a-dataframe-to-a-contingency-table}{%
+\subsection{Converting a dataframe to a contingency table}\label{converting-a-dataframe-to-a-contingency-table}}
+
+In most of our work we've used tidy data (or case based data) in dataframes. The function we just learned uses a contingency table in a matrix, not a dataframe. Sometimes too, we will want to make a contingency table to see it. We can make a contingency table out of a dataframe with the \texttt{table} function, we just have to select the columns we want using the \texttt{\$} notation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hr_df}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 9 x 3
+##   strain  replicate score
+##   <chr>       <dbl> <dbl>
+## 1 control         1     1
+## 2 mild            1     3
+## 3 deadly          1     4
+## 4 control         2     2
+## 5 mild            2     3
+## 6 deadly          2     4
+## 7 control         3     1
+## 8 mild            3     3
+## 9 deadly          3     3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hr_cont_table <-}\StringTok{ }\KeywordTok{table}\NormalTok{(hr_df}\OperatorTok{$}\NormalTok{score,hr_df}\OperatorTok{$}\NormalTok{strain) }
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{bigger-contingency-tables}{%
+\subsection{Bigger contingency tables}\label{bigger-contingency-tables}}
+
+Sometime we'll have a contingency table of counts that is larger than 2 x 2 IE we have more than two samples and more than two levels of a variable. For example we might have this HR scoring table.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hr_table}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    
+##     control deadly mild
+##   1       2      0    0
+##   2       1      0    0
+##   3       0      1    3
+##   4       0      2    0
+\end{verbatim}
+
+As we can see it shows an HR score in the rows and different strains in the columns. The numbers represent the count of times each score was seen in three replicated experiments. Because it's a contingency table the replicates are merged in together. It is important therefore that the same amount of sampling was done in each strain.
+
+Here we would want to compare the two basic hypotheses of whether the proportions of observed scores are different between the strains are the same or not. Let's go ahead and do that with \texttt{contingencyTableBF()}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{contingencyTableBF}\NormalTok{(hr_table, }\DataTypeTok{sampleType =} \StringTok{"indepMulti"}\NormalTok{, }\DataTypeTok{fixedMargin =} \StringTok{"cols"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Bayes factor analysis
+## --------------
+## [1] Non-indep. (a=1) : 11.55 ±0%
+## 
+## Against denominator:
+##   Null, independence, a = 1 
+## ---
+## Bayes factor type: BFcontingencyTable, independent multinomial
+\end{verbatim}
+
+We get a clear answer, the Bayes Factor strongly favours the hypothesis that the proportions of scores across strains are not equal. Which is nice but it doesn't go far enough - it doesn't tell us which are bigger than others and whether the conclusion applies to all the possible pairings of strains. This is the same problem we had with the Bayes Factor \(t\)-test and the solution is the same. We can just pull out each pair of strains and compare them one pair at a time. All we need is a book-keeping method to do this. The library \texttt{simplebf} contains one, so let's use that.
+
+We can use the \texttt{allpairs\_proportionbf()} function to get a data frame of Bayes Factors. If you pass this function a dataframe it will make the contingency table for you. You must specify which columns to use for the group and the counts. For easy reading we'll send the output to the \texttt{knitr::kable()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(simplebf)}
+\KeywordTok{allpairs_proportionbf}\NormalTok{(hr_df, }
+                        \DataTypeTok{group_col =} \StringTok{"strain"}\NormalTok{, }\DataTypeTok{count_col =} \StringTok{"score"}\NormalTok{, }
+                        \DataTypeTok{sample_type =} \StringTok{"indepMulti"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|l|l|r|l|l}
+\hline
+control\_group & test\_group & h\_0 & h\_1 & BayesFactor & odds\_h\_1 & summary\\
+\hline
+control & mild & mild proportions equal to control proportions & mild proportions not equal to control proportions & 5.6000 & 1:5.6 & Substantial evidence for H\_1 compared to H\_0\\
+\hline
+control & deadly & deadly proportions equal to control proportions & deadly proportions not equal to control proportions & 4.2000 & 1:4.2 & Substantial evidence for H\_1 compared to H\_0\\
+\hline
+mild & deadly & deadly proportions equal to mild proportions & deadly proportions not equal to mild proportions & 2.1875 & 1:2.1875 & Anecdotal evidence for H\_1 compared to H\_0\\
+\hline
+\end{tabular}
+
+So we get a nice set of Bayesian Hypothesis test for proportion or contingency table data on our HR experiment.
+
+\begin{roundup}
+\begin{itemize}
+\tightlist
+\item
+  Bayes Factors can be used for proportion tests like the \(\chi^2\)
+\item
+  The \texttt{BayesFactor} and \texttt{simplebf} packages are useful tools implementing these
+\end{itemize}
+\end{roundup}
 
   \bibliography{book.bib,packages.bib}
 

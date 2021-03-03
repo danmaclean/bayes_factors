@@ -47,7 +47,7 @@ Follow this link and install the right version for your operating system [https:
 
 In the RStudio console, type
 
-`install.packages(c("tidyverse", "BayesFactor"))`
+`install.packages(c("tidyverse", "devtools", "BayesFactor"))`
 
 and these packages should install. Once that is done, type 
 
