@@ -13,7 +13,7 @@ description: ""
 
 # Setting up
 
-The primary purpose of this course is to help you to understand how to use statistics that will help with your research. The course will try to explain a branch of statistics called 'Estimation Statistics' which are complementary to the normal sort of hypothesis test procedures and address some of the criticisms of those methods.
+The primary purpose of this course is to help you to understand how to use statistics that will help with your research. The course will try to explain a branch of statistics called 'Bayesian Inference' which is complementary to the normal sort of hypothesis test procedures but is also philosophically quite distinct.
 
 Statistics is a computationally heavy topic, so we'll be making use of the R statistical programming environment to do that side of the work. The rest of this chapter will help you get that set up on your own computer.
 
