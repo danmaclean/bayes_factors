@@ -1,0 +1,34 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Bayesian Inference with Bayes Factors"
+  author: "Dan MacLean"
+  date: "May 2022"
+  search: true
+  downloads: [pdf]
+  sharing: [twitter, facebook]
+  chapters:
+    - index.qmd
+    - part: "Background"
+      chapters:
+      - bayes_factor_intro.qmd
+    - part: "Tests with Bayes Factors"
+      chapters:
+      - bayes_t.qmd
+      - bayes_anova.qmd
+      - bayes_proportion.qmd
+  appendices:
+    - prerequisites.qmd
+    - r-fundamentals.qmd
+
+bibliography: book.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+comments:
+  hypothesis: true

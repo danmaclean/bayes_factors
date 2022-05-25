@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Dan MacLean">
-<meta name="dcterms.date" content="2022-05-01">
 
-<title>Bayesian Inference with Bayes Factors</title>
+<title>Bayesian Inference with Bayes Factors - Prerequisites</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,7 +24,8 @@ ul.task-list{list-style: none;}
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
-<link href="./bayes_factor_intro.html" rel="next">
+<link href="./r-fundamentals.html" rel="next">
+<link href="./bayes_proportion.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -68,7 +67,7 @@ ul.task-list{list-style: none;}
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Bayesian Inference with Bayes Factors</h1>
+      <h1 class="quarto-secondary-nav-title">Prerequisites</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -111,7 +110,7 @@ ul.task-list{list-style: none;}
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">Motivation</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Motivation</a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -164,7 +163,7 @@ ul.task-list{list-style: none;}
     <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link">Prerequisites</a>
+  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link active">Prerequisites</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -183,10 +182,13 @@ ul.task-list{list-style: none;}
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a>
+  <li><a href="#knowledge-prerequisites" id="toc-knowledge-prerequisites" class="nav-link active" data-scroll-target="#knowledge-prerequisites">Knowledge prerequisites</a></li>
+  <li><a href="#software-prerequisites" id="toc-software-prerequisites" class="nav-link" data-scroll-target="#software-prerequisites">Software prerequisites</a></li>
+  <li><a href="#installing-r" id="toc-installing-r" class="nav-link" data-scroll-target="#installing-r">Installing R</a></li>
+  <li><a href="#installing-rstudio" id="toc-installing-rstudio" class="nav-link" data-scroll-target="#installing-rstudio">Installing RStudio</a></li>
+  <li><a href="#installing-r-packages-in-rstudio" id="toc-installing-r-packages-in-rstudio" class="nav-link" data-scroll-target="#installing-r-packages-in-rstudio">Installing R packages in RStudio</a>
   <ul class="collapse">
-  <li><a href="#mr.-micawbers-rule-of-statistical-inference" id="toc-mr.-micawbers-rule-of-statistical-inference" class="nav-link" data-scroll-target="#mr.-micawbers-rule-of-statistical-inference">Mr.&nbsp;Micawber’s rule of statistical inference</a></li>
-  <li><a href="#learning-to-select-hypotheses-using-bayesian-approaches" id="toc-learning-to-select-hypotheses-using-bayesian-approaches" class="nav-link" data-scroll-target="#learning-to-select-hypotheses-using-bayesian-approaches">Learning to select hypotheses using Bayesian approaches</a></li>
+  <li><a href="#standard-packages" id="toc-standard-packages" class="nav-link" data-scroll-target="#standard-packages">Standard packages</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -196,7 +198,7 @@ ul.task-list{list-style: none;}
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Bayesian Inference with Bayes Factors</h1>
+<h1 class="title d-none d-lg-block">Prerequisites</h1>
 </div>
 
 
@@ -205,45 +207,43 @@ ul.task-list{list-style: none;}
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Dan MacLean </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">May 1, 2022</p>
-    </div>
-  </div>
     
   </div>
   
 
 </header>
 
-<section id="motivation" class="level1 unnumbered">
-<h1 class="unnumbered">Motivation</h1>
-<section id="mr.-micawbers-rule-of-statistical-inference" class="level2">
-<h2 class="anchored" data-anchor-id="mr.-micawbers-rule-of-statistical-inference">Mr.&nbsp;Micawber’s rule of statistical inference</h2>
-<p>We really do need to move away from <span class="math inline">\(p\)</span>-values as a gold-standard of truth in experimental science. The ruinous role of the <span class="math inline">\(p\)</span>-value in modern science can not be overstated. This one value is responsible for happiness and despair in equal measure. They say money is the root of all unhappiness and Dicken’s Mr.&nbsp;Micawber had this to say about the role of money in life:</p>
-<blockquote class="blockquote">
-<p>‘Annual income 20 pounds, annual expenditure 19 [pounds] 19 shillings and six pence, result happiness. Annual income 20 pounds, annual expenditure 20 pounds ought and six, result misery.’</p>
-</blockquote>
-<p>in science a corollary exists:</p>
-<blockquote class="blockquote">
-<p>‘<span class="math inline">\(p\)</span> below 0.05, result success, papers, grants, and tenure. <span class="math inline">\(p\)</span> above 0.05 result failure, misery, ignominy, and rejection.’</p>
-</blockquote>
-<p>The truth is that <span class="math inline">\(p &lt; 0.05\)</span> is an entirely arbitrary cut-off and is not in itself a helpful or meaningful value. Various scientific communities, led by publishing requirements, have accepted <span class="math inline">\(p &lt; 0.05\)</span> as a gold standard of truth against sense and often against rigorousness. With Bayesian tests we will be able to completely do away with <span class="math inline">\(p\)</span>-values and confidence intervals and in their place use a more evidence based approach to making inferences.</p>
+<section id="knowledge-prerequisites" class="level3">
+<h3 class="anchored" data-anchor-id="knowledge-prerequisites">Knowledge prerequisites</h3>
+<p>There are no specific knowledge prerequisites for this book but it will be very helpful if you have read and worked through the <code>ggplot</code>, <code>Intro to Stats</code> and <code>Estimation Statistics</code> books and are familiar with R use.</p>
 </section>
-<section id="learning-to-select-hypotheses-using-bayesian-approaches" class="level2">
-<h2 class="anchored" data-anchor-id="learning-to-select-hypotheses-using-bayesian-approaches">Learning to select hypotheses using Bayesian approaches</h2>
-<p>The sort of statistics that most experimental science students are taught are called ‘Frequentist Statistics’. They include the <span class="math inline">\(t\)</span>-tests, ANOVA and <span class="math inline">\(\chi^2\)</span>-tests and the linear models that we have studied already.</p>
-<p>The inferential approach (how we make decisions about data) in the Frequentist paradigm is often criticised for being weak and is often abused. Although the abuse is as much a consequence of convention in the scientific literature and in scientific publishing, the misinterpretation of <span class="math inline">\(p\)</span>-values by generations of scientists as it is the philosophical weakness of the methods themselves, the weaknesses persist and over time other paradigms have emerged.</p>
-<p>We have seen an alternative in Estimation Statistics, in this course we will look at another - Bayesian Inference. We will use Bayes Factors to compare levels of evidence for one hypothesis over another, rather than just accepting or rejecting a simplistic null hypothesis.</p>
-<p>The advantage of this will be that we can much more directly select between specific hypotheses that might describe our data. This will give us a much clearer idea about a question that we instinctively want to answer when we do statistics - ‘Which hypothesis is most likely true?’, we will see that we can formulate this in lots of ways, but in general the hypotheses we want to compare will be something along the lines of some measured quantity being different in different samples. With Frequentist Inference we can only ask the roundabout question, ‘How often does the difference we observe occur by chance?’ and if it isn’t likely, say so. With Bayes Factors we will be able to compare directly competing hypotheses and reject the least likely absolutely.</p>
+<section id="software-prerequisites" class="level3">
+<h3 class="anchored" data-anchor-id="software-prerequisites">Software prerequisites</h3>
+<p>You need to install the following stuff for this book:</p>
+<ol type="1">
+<li>R</li>
+<li>RStudio</li>
+<li>Some R packages: <code>devtools</code>, <code>tidyverse</code> and <code>BayesFactor</code> and <code>simplebf</code></li>
+</ol>
+</section>
+<section id="installing-r" class="level2">
+<h2 class="anchored" data-anchor-id="installing-r">Installing R</h2>
+<p>Follow this link and install the right version for your operating system <a href="https://www.stats.bris.ac.uk/R/">https://www.stats.bris.ac.uk/R/</a></p>
+</section>
+<section id="installing-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="installing-rstudio">Installing RStudio</h2>
+<p>Follow this link and install the right version for your operating system <a href="https://www.rstudio.com/products/rstudio/download/">https://www.rstudio.com/products/rstudio/download/</a></p>
+</section>
+<section id="installing-r-packages-in-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="installing-r-packages-in-rstudio">Installing R packages in RStudio</h2>
+<section id="standard-packages" class="level3">
+<h3 class="anchored" data-anchor-id="standard-packages">Standard packages</h3>
+<p>In the RStudio console, type</p>
+<p><code>install.packages(c("tidyverse", "devtools", "BayesFactor"))</code></p>
+<p>and these packages should install. Once that is done, type</p>
+<p><code>devtools::install_github("danmaclean/simplebf")</code></p>
+<p>to install the final package</p>
 
 
 </section>
@@ -329,12 +329,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./bayes_proportion.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bayes Factor on Contingency Tables and Proportions</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./bayes_factor_intro.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bayesian Inference</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./r-fundamentals.html" class="pagination-link">
+        <span class="nav-page-text">R Fundamentals</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
