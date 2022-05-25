@@ -1,0 +1,112 @@
+# Bayes Factor on Contingency Tables and Proportions 
+
+## About this chapter
+
+1. Questions
+    * How can I do a categoric count based $\chi^2$ or proportional test with Bayes Factors?
+2. Objectives
+    * Perform $\chi^2$ on contingency tables of any size
+3. Keypoints
+    * `BayesFactor` and `simplebf` provide functions and automations for categorical count or frequency data
+    * These are useful for HR scoring data
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(magrittr)
+mendel_data <- data.frame(
+  P = c(459, 450), W = c(141,150), row.names = c("observed", "expected")
+)
+
+its_hr_scores_time <- function() {
+  tibble::tibble(
+    strain = rep(c("control", "mild", "deadly"),3),
+    replicate = c(rep(1, 3), rep(2,3), rep(3,3)),
+    score = c( 1, 3, 4, 2, 3, 4, 1, 3, 3)
+  )
+}
+
+hr_df <- its_hr_scores_time() 
+hr_table <- table(hr_df$score,hr_df$strain) 
+
+```
+The `BayesFactor` package has some functions for performing other types of tests and returning a Bayes Factor. In this section we will briefly look at these.   
+
+## Bayes Factor $\chi^2$
+
+A common question is whether proportions of counted things or frequency is different between samples. The one we typically learn first as biologists is Mendel's pea data that led to his genetic insights, like this 2x2 table for flower colour (purple or white). Note that we have the counts of flower colour that were observed and expected counts that would come from a 3:1 Mendelian segregating cross.
+
+```{r}
+mendel_data
+```
+The $\chi^2$ test is the classical frequentist test performed to determine differences in proportions in a contingency table, and there is an equivalent Bayesian method in `BayesFactor`. We can run our data through the function `contingencyTableBF()` very easily, but it does need the data to be an R matrix object, not the more typical dataframe. We can change that easily with `as.matrix()`, then run the function.
+
+The arguments are important:  `fixedMargin`  describes whether the variable of interest is in the rows or columns of the table - here it is in the columns so we use `cols`; `sampleType` describes what the function should do in the Bayesian sampling process as it runs. This is highly technical and out of scope for what we want to discuss, so I'm going to gloss over it. The function documentation has more information if you want it (`?contingencyTableBF`) the option used here `indepMulti` is a good one to start with.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(BayesFactor)
+```
+
+```{r}
+mendel_matrix <- as.matrix(mendel_data)
+
+library(BayesFactor)
+contingencyTableBF(mendel_matrix, sampleType = "indepMulti", fixedMargin='cols')
+```
+
+The hypotheses that are tested in this example are fixed and simple ones. Strictly $H_0$ is that the proportions in the table are equal and $H_1$ is that the proportions are not equal. So in effect the whole table is tested to see whether the observed counts are different to the expected counts. Here we see that the odds are 1:0.101 _against_ $H_1$ so the conclusion is that the proportions are equal, that is our observed flower colour proportions match the expected. 
+
+There isn't a way to use different $H_1$'s in the way that we did with the Bayes Factor $t$-test, so we can't test the explicit hypothesis that one is bigger (or smaller than the other). 
+
+
+### Converting a dataframe to a contingency table
+
+In most of our work we've used tidy data (or case based data) in dataframes. The function we just learned uses a contingency table in a matrix, not a dataframe. Sometimes too, we will want to make a contingency table to see it. We can make a contingency table out of a dataframe with the `table` function, we just have to select the columns we want using the `$` notation. 
+
+
+```{r}
+hr_df
+hr_cont_table <- table(hr_df$score,hr_df$strain) 
+```
+
+
+### Bigger contingency tables 
+
+Sometime we'll have a contingency table of counts that is larger than 2 x 2 IE we have more than two samples and more than two levels of a variable. For example we might have this HR scoring table.
+
+```{r}
+hr_table
+```
+
+As we can see it shows an HR score in the rows and different strains in the columns. The numbers represent the count of times each score was seen in three replicated experiments. Because it's a contingency table the replicates are merged in together. It is important therefore that the same amount of sampling was done in each strain.
+
+Here we would want to compare the two basic hypotheses of whether the proportions of observed scores are different between the strains are the same or not. Let's go ahead and do that with `contingencyTableBF()`
+
+```{r}
+contingencyTableBF(hr_table, sampleType = "indepMulti", fixedMargin = "cols")
+```
+
+We get a clear answer, the Bayes Factor strongly favours the hypothesis that the proportions of scores across strains are not equal. Which is nice but it doesn't go far enough - it doesn't tell us which are bigger than others and whether the conclusion applies to all the possible pairings of strains. This is the same problem we had with the Bayes Factor $t$-test and the solution is the same. We can just pull out each pair of strains and compare them one pair at a time. All we need is a book-keeping method to do this. The library `simplebf` contains one, so let's use that.
+
+We can use the `allpairs_proportionbf()` function to get a data frame of Bayes Factors. If you pass this function a dataframe it will make the contingency table for you. You must specify which columns to use for the group and the counts. For easy reading we'll send the output to the `knitr::kable()` function.
+
+```{r}
+library(simplebf)
+allpairs_proportionbf(hr_df, 
+                        group_col = "strain", count_col = "score", 
+                        sample_type = "indepMulti") %>% 
+  knitr::kable()
+```
+
+So we get a nice set of Bayesian Hypothesis test for proportion or contingency table data on our HR experiment.
+
+
+:::{.callout-note}
+## Roundup
+
+  * Bayes Factors can be used for proportion tests like the $\chi^2$
+  * The `BayesFactor` and `simplebf` packages are useful tools implementing these
+
+:::
+
+
+
+

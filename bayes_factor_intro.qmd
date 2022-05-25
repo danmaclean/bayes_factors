@@ -1,0 +1,159 @@
+# Bayesian Inference
+
+## About this chapter
+
+1. Questions
+    * What is probability?
+    * What does Bayes Theorem do?
+    * How can we compare hypotheses about data?
+2. Objectives
+    * Understand the differences between Frequentist and Bayesian probability
+    * Get an appreciation of Bayes Theorem
+    * Understand what a Bayes Factor represents
+3. Keypoints
+    * Probability can be based on frequency of events _or_ the level of knowledge we have about a thing
+    * Bayes Theorem gives a likelihood based on evidences that can change
+    * Bayes Factors are useful in comparing hypothesis about the same evidence
+
+## Frequentist and Bayesian Interpretations of Probability
+
+It may seem like a strange question to ask, but what, exactly, is probability? Whatever it is it certainly isn't a solid thing that we could carry in a bucket.  Probability is a strange and often ill-defined concept that can get very confusing when one starts to think deeply about it. When asked what probability is people will generally start to talk about vague concepts like chance or likelihood or randomness or fate, even. Most people will give examples of coins being thrown or dice being rolled. This ephemerality is no good when we want to use probability so when it comes to working with probability statisticians needed to develop very precise definitions.  It turns out that different ways of thinking about likelihoods can result in very different definitions of probability. 
+
+The two definitions that we will consider are those called the Frequentist and the Bayesian definitions
+
+### Frequentist Probability
+
+The Frequentist definition of probability is based on the frequency of occurrence of events. This is a definition that is most similar to the coin toss or dice throw intuition about probability. A probability can be stated thus
+
+$P(Event) = \frac{\text{number of ways event can happen}}{\text{number of all possible outcomes}}$
+
+So in a coin toss, we might get the following probability of getting 'heads'
+
+$P(heads) = \frac{\text{number of heads on the coin}}{\text{number of sides to the coin}}$
+
+which of course, computes as
+
+$P(heads) = \frac{1}{2}$
+
+Thinking of probabilities in this way is similar to a gambler who plays games of chance like roulette or craps, where the odds of winning are entirely based on the outcome of simple random process.
+
+This is so simple and intuitive that we might be tempted to think it's the natural way to think about probabilities, but there are other definitions. 
+
+### Bayesian Probablity
+
+The Bayesian definition of probability is different, it takes probability to be a reasonable expectation of an event, depending on the knowledge that the observer has. You might understand these probabilities similarly to a gambler that bets on horse races and changes their assessment of a horse's winning ability based on the conditions of the ground and the weight of the jockey. These are trickier to understand than the Frequentist definition but an example can be helpful.
+
+Consider that you and a friend are playing cards and that your friend claims to be able to guess the identity of a card that you draw and replace. A frequentist probability would say that the probability of this was $P(correct) = \frac{1}{52}$. However, you know that your friend is an amateur magician, so you expect that the probability of a correct guess would be much higher than that. That is to say that you have a different reasonable expectation because you have incorporated prior knowledge into your working. Bayesian Probability is based on this prior knowledge and updating of belief based on that knowledge to come up with a posterior likelihood of an event.  
+
+In rough terms the answer - a 'posterior probability' is arrived at by combining a 'prior probability' and 'evidence'. In the card guess example the 'prior probability' was the raw chance based probability that anyone would guess the card $\frac{1}{52}$, the 'evidence' was the fact that your friend was an amateur magician and the 'posterior probability' was the updated 'prior probability' that the chance of guessing was higher than $\frac{1}{52}$. 
+
+One problem we might spot is how exactly do we update our probability to actually get a measure of the posterior? A formula known as Bayes Theorem lets us do the calculation, but  it can be very hard to get the actual numbers we need for evidence and this can be a barrier to using Bayes in the real world. However, let's look work one calculation through with some assumed numbers to get a feel.
+
+## Bayes Theorem by Rough Example
+
+The mathematical basis of calculating a posterior belief or likelihood is done with a formula called Bayes Theorem. Which, using our card example defines the posterior as
+
+$P(correct | magician)$
+
+which reads as the probability of a guess being correct once you know you are working with a magician. 
+
+It defines the prior as
+
+$P(correct)$ 
+
+which reads as the probability of being correct in a random guess (which we know to be $\frac{1}{52}$)
+
+And it defines the evidence as 
+
+$P(magician|correct)$
+
+which reads as the probability of the person being a magician given a guess was correct. This is the number which can be hardest to work out in general though in this case we might say it is quite high, say 0.9.
+
+Bayes Theorem then works out the posterior probability given these numbers. There is a very famous formula for this, that I won't include here for simplicity sake, but it is very interesting. We can take a short cut and use R to work out the posterior from the prior and the evidence as follows
+
+```{r, message=FALSE}
+library(LaplacesDemon)
+prior <- c(51/52,1/52) 
+evidence <- c(0.9, 0.1)
+
+BayesTheorem(prior, evidence)
+```
+
+as it is the first reported number we want, we can see that we get a 99% posterior probability that the guess will be correct if we know that the 90% of correct guesser's are magicians. 
+
+The key thing to take away here is that the Bayesian Probability allows us to modify our view based on changes in the evidence. This is a key attribute as we can use it to compare the resulting posteriors from different evidences. In other words it allows us to compare different hypotheses based on different evidence to see which is the more likely.
+
+## Hypotheses in Frequentist and Bayesian Statistics
+
+Now that we know Bayes Statistics allow for updating our beliefs in the light of different evidence we can look at how we can formulate hypotheses to take advantage of this and do something very different with Bayes than we do with Frequentist ideas.
+
+Let' recap the logic of hypothesis tests in Frequentist statistics.
+
+### Frequentist Hypotheses
+
+You may recall that the first step of doing a hypothesis test like a $t$-test is to set up our hypotheses. The first $H_0$ is the null hypothesis which represents the situation where there is no difference and $H_1$ is the alternative. Next we select a Null model that represents the Null hypothesis, this step is usually implicit at the operator level and comes as part of the linear model or $t$-test that we choose to use, and usually is based on the Normal Distribution. Our hypothesis represent the situation as follows
+
+  * $H_0 : \bar{x}_1 - \bar{x}_2 = 0$ IE, the sample means are equal.
+  * $H_1 : \bar{x}_2 - \bar{x}_2 \neq 0$ IE, the sample means are not equal.
+  
+  We test $H_0$ (the Null Hypothesis and Model) to see how likely the observed result is under that and if it is unlikely at some level ($p$) then we reject $H_0$ and accept $H_1$.
+
+  We criticised this for being weak inference in the Linear Model course. Let's do that again. In this framework haven't we accepted $H_1$ without analysing it? Here it means that we have had to set up hypotheses that are binary and not compare them directly. We have a take or leave approach to hypotheses.
+
+We haven't, for example been able to ask whether $\bar{x}_1 > \bar{x}_2$ because that wouldn't be askable under our single test, binary paradigm. That's a limitation. As scientists we should be able to collect data and compare models or hypotheses about that data directly.
+  
+### Bayesian Hypotheses
+
+In the Bayesian Framework we can formulate hypotheses as we wish and compare them directly, using Bayesian probabilities to examine models with different evidences and priors. So if the evidence shows that $H_1$ isn't any more believable than $H_0$ we wouldn't falsely fall into the trap of believing $H_1$ was somehow more correct. 
+
+Bayesian Hypotheses can be a bit more like this
+
+  * $H_0 : \bar{x}_1 < \bar{x}_2$ IE sample 1 has a lower mean than sample 2
+  * $H_1 : \bar{x}_1 > \bar{x}_2$ IE sample 1 has a higher mean than sample 2.
+
+which is often much more intellectually satisfying and can lead to clearer answers than the more binary Frequentist hypotheses.
+
+A significant limitation of the approach is the need to select and quantify the prior and the evidence, which can be crucial and lead to very different outcomes if different values are chosen. 
+
+Selection of the prior knowledge itself is very difficult and no suitable data may exist.  Getting the right data is subjective in many cases and there is no one right way. Domain knowledge is important and often crucial but this can easily lead to bias. An unwitting, uncareful (or say it quietly - unscrupulous) operator could select a prior that would bias the result in favour of a preferred hypothesis. This is a form of confirmation bias or interpretation of the data in a way that confirms your prior beliefs.
+
+For these reasons Frequentist approaches are often the most pragmatic and _a priori_ transparent method, though if the priors and evidence can be collected in a non-biased way Bayesian approaches offer us excellent alternatives.
+
+## Bayes Factors
+
+We can  use Bayesian Inference through a tool known as Bayes Factors. Bayes Factors are a method of directly comparing the posteriors of different models with different evidences and priors.
+
+Bayes Factors make a ratio of the result of one model or hypothesis over another, resulting in a single quantity that we can examine. Consider that our hypotheses above have been put through the process and a result gained thus
+
+  * $H_0 : \bar{x}_1 < \bar{x}_2 \leadsto Posterior = 0.2$ 
+  * $H_1 : \bar{x}_1 > \bar{x}_2 \leadsto Posterior = 0.6$
+  
+We can clearly see that $H_1$ has 3 times more support than $H_0$ and we would want to accept that as a better explanation of our data. 
+
+Bayes Factors are just that, the ratio of the relative goodness of the hypotheses. From this we can make statements about the support for hypotheses. @wagenmakers2011 created a table of thresholds indicating interpretations for different Bayes Factors on two hypotheses.
+
+```{r, echo=FALSE}
+
+knitr::kable(
+  data.frame(
+    "Bayes Factor" = c(">100", "30..100", "10..30", "3..10" , "1..3","1", "1..1/3", "1/3..1/10", "1/10..1/30", "1/30..1/100", "<1/100"),
+    "Interpretation" = c( 
+      paste(c("Extreme", "Very Strong", "Strong", "Substantial", "Anecdotal"), " evidence for $H_0$ compared to $H_1$" ),
+      "No evidence",
+      paste(c("Anecdotal", "Substantial", "Strong", "Very Strong", "Extreme"), " evidence for $H_1$ compared to $H_0$")
+      )
+
+    )
+)
+```
+
+These are extremely useful especially when used with other measures and interpretations like estimation statistics to allow us to make statistical claims. 
+
+In the next chapters we will look at how to use Bayes Factors in place of common frequentist hypothesis tests.
+
+
+:::{.callout-note}
+The @wagenmakers2011 article is fun if you can get hold of it. It's a commentary on an earlier article in which the researchers conclude that people have the ability to see into the future! Which they arrive at by misapplying statistics the same way that researchers across all fields do. Wagenmakers _et al_ reperform the analysis with Bayes Factors and show that the original conclusions are unsound.
+:::
+
+## References

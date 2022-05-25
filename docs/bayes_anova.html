@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.387">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Bayesian Inference with Bayes Factors - 3&nbsp; Bayes Factor ANOVA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<link href="./bayes_proportion.html" rel="next">
+<link href="./bayes_t.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes Factor ANOVA</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bayesian Inference with Bayes Factors</a> 
+        <div class="sidebar-tools-main">
+    <a href="./Bayesian-Inference-with-Bayes-Factors.pdf" title="Download PDF" class="sidebar-tool px-1"><i class="bi bi-file-pdf"></i></a>
+    <a href="" title="Share" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
+    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+            <i class="bi bi-bi-twitter pe-1"></i>
+          Twitter
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+            <i class="bi bi-bi-facebook pe-1"></i>
+          Facebook
+          </a>
+        </li>
+    </ul>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Motivation</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Background</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bayes_factor_intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bayesian Inference</span></a>
+  </div>
+</li>
+    </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Tests with Bayes Factors</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bayes_t.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Bayes Factor <span class="math inline">\(t\)</span>-tests</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bayes_anova.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes Factor ANOVA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bayes_proportion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bayes Factor on Contingency Tables and Proportions</span></a>
+  </div>
+</li>
+    </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Appendices</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link">Prerequisites</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./r-fundamentals.html" class="sidebar-item-text sidebar-link">R Fundamentals</a>
+  </div>
+</li>
+    </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#about-this-chapter" id="toc-about-this-chapter" class="nav-link active" data-scroll-target="#about-this-chapter"> <span class="header-section-number">3.1</span> About this chapter</a></li>
+  <li><a href="#the-issue-of-multiplicity-in-frequentism-and-bayesianism" id="toc-the-issue-of-multiplicity-in-frequentism-and-bayesianism" class="nav-link" data-scroll-target="#the-issue-of-multiplicity-in-frequentism-and-bayesianism"> <span class="header-section-number">3.2</span> The issue of multiplicity in Frequentism and Bayesianism</a></li>
+  <li><a href="#automating-bayesfactorttest-for-many-comparisions" id="toc-automating-bayesfactorttest-for-many-comparisions" class="nav-link" data-scroll-target="#automating-bayesfactorttest-for-many-comparisions"> <span class="header-section-number">3.3</span> Automating <code>BayesFactor::ttest()</code> for many comparisions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes Factor ANOVA</span></h1>
+</div>
+
+
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="about-this-chapter" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="about-this-chapter"><span class="header-section-number">3.1</span> About this chapter</h2>
+<ol type="1">
+<li>Questions
+<ul>
+<li>How can I do an ANOVA?</li>
+</ul></li>
+<li>Objectives
+<ul>
+<li>Understand multiplicity is not a problem for Bayes Factors</li>
+</ul></li>
+<li>Keypoints
+<ul>
+<li>The package <code>simplebf</code> automates Bayes Factor <span class="math inline">\(t\)</span>-tests for many samples</li>
+</ul></li>
+</ol>
+</section>
+<section id="the-issue-of-multiplicity-in-frequentism-and-bayesianism" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="the-issue-of-multiplicity-in-frequentism-and-bayesianism"><span class="header-section-number">3.2</span> The issue of multiplicity in Frequentism and Bayesianism</h2>
+<p>The ANOVA is often seen to be a catch-all test that can be used for an experiment that has more than two samples in it. Experimenters often understand this to be true on the basis that ‘you shouldn’t do <span class="math inline">\(t\)</span>-tests for more than two samples by repeating the <span class="math inline">\(t\)</span>-test’. This is quite true and is a strategy for avoidance of the problem of multiplicity.</p>
+<p>Multiplicity or multiple testing occurs when we do lots of tests one after the other, in a batch. The more we do, the more likely we are to make an error in our conclusions (not in our working). This happens in Frequentist statistical tests because the <span class="math inline">\(p\)</span>-value expresses a fixed error rate that we are happy to accept.</p>
+<p>Recall that the <span class="math inline">\(t\)</span>-test has two hypotheses (of which we test just one)</p>
+<p><span class="math inline">\(H_0 : \bar{x_1} - \bar{x_2} = 0\)</span></p>
+<p><span class="math inline">\(H_1 : \bar{x_1} - \bar{x_2} \neq 0\)</span></p>
+<p>and we set a level at which would reject <span class="math inline">\(H_0\)</span> usually <span class="math inline">\(p &lt; 0.05\)</span>. The <span class="math inline">\(p\)</span> reflects the proportion of times that the difference observed is seen in the null model by chance (so we see the difference 1 in 20 times by chance), in other words in a proportion of 0.95 of times we would reject the null correctly. Which is fine for just one comparison.</p>
+<p>If we do more than one test we must multiply these probabilities together, giving <span class="math inline">\(0.95 * 0.95 = 0.9025\)</span>. This is catastrophic, by doing just two tests we reduce the proportion of times we choose the correct hypothesis to 0.9025, down from 19/20 to 18/20, we make twice as many mistakes! For more tests this gets worse.</p>
+<p>Frequentist statistics have lots of corrections for this sort of problem and the ANOVA post-hoc tests are in part a way of doing that. The good news for those using Bayes Factors is that this problem does not exist. Because we don’t have a fixed error rate, it doesn’t get bigger when we do more tests. We are free to do as many hypothesis comparisons as we wish.</p>
+</section>
+<section id="automating-bayesfactorttest-for-many-comparisions" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="automating-bayesfactorttest-for-many-comparisions"><span class="header-section-number">3.3</span> Automating <code>BayesFactor::ttest()</code> for many comparisions</h2>
+<p>As there isn’t a need for a Bayes Factor analogue to the ANOVA and post-hoc tests, we can just use the <span class="math inline">\(t\)</span>-test analogue over and over again. If we have a multiple sample dataset we just need a book-keeping method to pull out the samples of interest.</p>
+<p>Let’s draft one with <code>dplyr</code> and the Plant Growth data set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>small_df <span class="ot">&lt;-</span> PlantGrowth <span class="sc">%&gt;%</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"ctrl"</span>, <span class="st">"trt1"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">droplevels</span>()</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ttestBF</span>(<span class="at">formula =</span> weight <span class="sc">~</span> group, <span class="at">data =</span> small_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This pattern helps you extract the pairs of samples you need, though you would need to repeat it every time you wanted to analyse a new pair. A convenience function for the simple case that allows us to do <code>BayesFactor::ttestBF()</code> for all pairs in a specified column in a dataframe exists in the package <code>simplebf</code>. It works like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(simplebf)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">allpairs_ttestbf</span>(PlantGrowth, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">group_col =</span> <span class="st">"group"</span>, <span class="at">data_col =</span> <span class="st">"weight"</span>, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">rscale =</span> <span class="st">"medium"</span>, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">h_1 =</span> <span class="st">"test_greater_than_control"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(result, <span class="at">digits =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 14%">
+<col style="width: 17%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">control_group</th>
+<th style="text-align: left;">test_group</th>
+<th style="text-align: left;">h_0</th>
+<th style="text-align: left;">h_1</th>
+<th style="text-align: right;">BayesFactor</th>
+<th style="text-align: left;">odds_h_1</th>
+<th style="text-align: left;">summary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">trt1</td>
+<td style="text-align: left;">ctrl</td>
+<td style="text-align: left;">ctrl equal to trt1</td>
+<td style="text-align: left;">ctrl greater than trt1</td>
+<td style="text-align: right;">1.0834</td>
+<td style="text-align: left;">1:1.0834</td>
+<td style="text-align: left;">Anecdotal evidence for H_1 compared to H_0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">trt2</td>
+<td style="text-align: left;">ctrl</td>
+<td style="text-align: left;">ctrl equal to trt2</td>
+<td style="text-align: left;">ctrl greater than trt2</td>
+<td style="text-align: right;">0.1622</td>
+<td style="text-align: left;">1:0.1622</td>
+<td style="text-align: left;">Substantial evidence for H_0 compared to H_1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ctrl</td>
+<td style="text-align: left;">trt1</td>
+<td style="text-align: left;">trt1 equal to ctrl</td>
+<td style="text-align: left;">trt1 greater than ctrl</td>
+<td style="text-align: right;">0.2167</td>
+<td style="text-align: left;">1:0.2167</td>
+<td style="text-align: left;">Substantial evidence for H_0 compared to H_1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">trt2</td>
+<td style="text-align: left;">trt1</td>
+<td style="text-align: left;">trt1 equal to trt2</td>
+<td style="text-align: left;">trt1 greater than trt2</td>
+<td style="text-align: right;">0.1363</td>
+<td style="text-align: left;">1:0.1363</td>
+<td style="text-align: left;">Substantial evidence for H_0 compared to H_1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ctrl</td>
+<td style="text-align: left;">trt2</td>
+<td style="text-align: left;">trt2 equal to ctrl</td>
+<td style="text-align: left;">trt2 greater than ctrl</td>
+<td style="text-align: right;">3.3872</td>
+<td style="text-align: left;">1:3.3872</td>
+<td style="text-align: left;">Substantial evidence for H_1 compared to H_0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">trt1</td>
+<td style="text-align: left;">trt2</td>
+<td style="text-align: left;">trt2 equal to trt1</td>
+<td style="text-align: left;">trt2 greater than trt1</td>
+<td style="text-align: right;">12.6445</td>
+<td style="text-align: left;">1:12.6445</td>
+<td style="text-align: left;">Strong evidence for H_1 compared to H_0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The results are pretty easy to read. Note we can set <code>rscale</code> values as in the <code>ttestBF()</code> and we can choose one of three values for <span class="math inline">\(H_1\)</span> <code>test_greater_than_control</code>, <code>test_less_than_control</code> and <code>test_not_equal_to_control</code>.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Roundup
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Bayes Factors do not need multiple hypothesis corrections</li>
+<li><code>simplebf</code> is a package for automating the comparison of all groups in a single variable in a tidy dataframe</li>
+</ul>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./bayes_t.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Bayes Factor <span class="math inline">\(t\)</span>-tests</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./bayes_proportion.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bayes Factor on Contingency Tables and Proportions</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

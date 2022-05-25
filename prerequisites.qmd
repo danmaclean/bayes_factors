@@ -1,0 +1,45 @@
+# Prerequisites {.unnumbered}
+
+### Knowledge prerequisites
+
+There are no specific knowledge prerequisites for this book but it will be very helpful if you have read and worked through the `ggplot`, `Intro to Stats` and `Estimation Statistics` books and are familiar with R use.
+
+
+### Software prerequisites
+
+You need to install the following stuff for this book: 
+
+ 1. R
+ 2. RStudio
+ 3. Some R packages: `devtools`, `tidyverse` and `BayesFactor` and `simplebf`
+ 
+
+## Installing R
+
+Follow this link and install the right version for your operating system [https://www.stats.bris.ac.uk/R/](https://www.stats.bris.ac.uk/R/)
+
+## Installing RStudio
+
+Follow this link and install the right version for your operating system [https://www.rstudio.com/products/rstudio/download/](https://www.rstudio.com/products/rstudio/download/)
+
+## Installing R packages in RStudio
+
+### Standard packages
+
+In the RStudio console, type
+
+`install.packages(c("tidyverse", "devtools", "BayesFactor"))`
+
+and these packages should install. Once that is done, type 
+
+`devtools::install_github("danmaclean/simplebf")`
+
+to install the final package
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'tidyverse', 'BayesFactor'
+), 'packages.bib')
+```
