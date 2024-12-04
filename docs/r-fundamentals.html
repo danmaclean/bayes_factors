@@ -407,23 +407,23 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1]  0.70910174 -1.99275519 -0.46803757  0.59558801 -0.43924983 -0.02682041
-  [7]  0.25913775  0.84530600  0.13766247 -1.53391198 -1.26591349  0.94818967
- [13]  0.30410171  0.47455521 -0.88842799 -1.82691481 -1.35385220 -0.59027331
- [19]  0.73294479  0.17566754  0.24826766  0.62570495  0.16505810 -0.06072241
- [25] -0.13640747 -1.01726345  1.18429131  1.67607357  0.65155342 -0.57551812
- [31]  0.73567674  0.21488138  0.74501901  0.70324637 -0.23394812 -1.23045761
- [37] -0.72267495 -1.49288508  0.05986981 -0.66753565  0.84689999  1.92985676
- [43] -1.76257874  0.72206813 -1.49271653 -0.75595563  1.10467690  0.57760474
- [49]  0.80082329  0.08631643  1.09814435 -1.44603175 -0.20935762 -1.16098660
- [55]  1.54226687  0.19247114  1.09942530  0.19693119 -0.64387884 -1.53104022
- [61]  0.52219207  0.45909822  0.80986026 -0.57757425 -0.36147283  0.36336628
- [67]  0.34717235 -1.46045961 -0.02896198 -0.43613138 -1.07445386  0.88910672
- [73] -0.60923516 -0.11319457  0.20165363 -0.65929042 -1.13145987 -0.72282325
- [79] -2.28634107  0.15152561 -0.77596526 -1.24516105  1.47179612  0.79144017
- [85] -1.42774131 -1.66293606 -1.74541565 -0.36407071  0.73286671 -0.46689321
- [91]  0.69127908 -1.11685320 -0.38071314 -0.56052193 -1.10044048 -0.48575082
- [97]  0.73663685 -0.54693021 -0.06033001  0.28347761</code></pre>
+<pre><code>  [1] -0.02476748 -2.09136358 -1.02248934 -1.69744992  0.05895667  1.05503207
+  [7] -0.40040538 -0.41351914  0.83916774  0.89212636  0.82207807 -0.20276934
+ [13]  2.11878807 -0.42455996 -0.18392086  0.27170223 -2.16481407 -0.27348207
+ [19]  0.06313183 -1.15107523  0.66228362 -1.57499961 -0.34725496 -0.66656242
+ [25]  0.14280066 -0.79012779  0.35711738  0.39136287 -0.29582966  0.52169592
+ [31] -2.13648457 -0.98489764  0.20165470 -0.46222511  1.76613291  0.23566183
+ [37] -0.95943435  0.45944775 -0.66857532 -0.77478307  1.67368231  1.71417594
+ [43]  1.97003539 -0.95841292 -2.00321029 -0.04826576  0.68218269 -1.15167289
+ [49] -0.66635554  1.35439502  0.45565879 -0.62651434  0.69841996 -0.40658964
+ [55]  0.44409602  0.76678923 -0.78978946 -0.51999011  0.42588982  0.06446149
+ [61] -0.62013442  0.44559813  0.05614267 -0.68609116 -0.75702382  0.71240167
+ [67]  0.06199338 -1.33377884 -1.35234383 -0.82703642 -0.30709308 -0.34152447
+ [73]  0.92198832  2.24893939  0.77732355 -1.42433973 -1.38758750  0.07225661
+ [79] -0.69868325  2.22281381  0.22834503 -0.72941394  1.05884078  1.04236582
+ [85]  0.50427947 -0.59658971 -0.96539837  0.95475318  0.87568177  0.44492787
+ [91] -1.51892945 -0.70582627  0.10080041 -0.98445775 -0.37962687 -1.17928429
+ [97] -0.03900438  0.87483167  0.65202058  0.55416549</code></pre>
 </div>
 </div>
 <p>We can combine objects, variables and functions to do more complex stuff in R, here’s how we get the mean of 100 random numbers.</p>
@@ -431,7 +431,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(numbers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1015545</code></pre>
+<pre><code>[1] 0.06075975</code></pre>
 </div>
 </div>
 <p>Here we created a vector object with <code>rnorm(100)</code> and assigned it to the variable <code>numbers</code>. We than used the <code>mean()</code> function, passing it the variable <code>numbers</code>. The <code>mean()</code> function returned the mean of the hundred random numbers.</p>
@@ -442,10 +442,10 @@ window.Quarto = {
 <p>One of the more common objects that R uses is a dataframe. The dataframe is a rectangular table-like object that contains data, think of it like a spreadsheet tab. Like the spreadsheet, the dataframe has rows and columns, the columns have names and the different columns can have different types of data in. Here’s a little one</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>  names age    score
-1 Guido  24 72.05397
-2 Marty  45 20.98623
-3  Alan  11 30.52027</code></pre>
+<pre><code>  names age     score
+1 Guido  24 56.079663
+2 Marty  45 56.485117
+3  Alan  11  5.013943</code></pre>
 </div>
 </div>
 <p>Usually we get a dataframe by loading in data from an external source or as a result from functions, occasionally we’ll want to hand make one, which can be done with various functions, <code>data.frame</code> being the most common.</p>

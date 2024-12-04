@@ -1,6 +1,6 @@
 # Motivation {.unnumbered}
 
-## Mr. Micawber's rule of statistical inference
+## Mr. Micawber's rule of scientific success
 
 We really do need to move away from $p$-values as a gold-standard of truth in experimental science. The ruinous role of the $p$-value in modern science can not be overstated. This one value is responsible for happiness and despair in equal measure. They say money is the root of all unhappiness and Dicken's Mr. Micawber had this to say about the role of money in life:
 
