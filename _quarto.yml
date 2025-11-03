@@ -5,7 +5,7 @@ project:
 book:
   title: "Bayesian Inference with Bayes Factors"
   author: "Dan MacLean"
-  date: "May 2022"
+  date: "November 2025"
   search: true
   downloads: [pdf]
   sharing: [twitter, facebook]
@@ -28,10 +28,6 @@ bibliography: book.bib
 format:
   html:
     theme: cosmo
-    other-links:
-      - text: Introduction to Non-Frequentist Statistics Chatbot
-        href: https://tsl-bioinformatics.shinyapps.io/nonfreqstats_chatbot/
-        target: _blank
   pdf:
     documentclass: scrreprt
 comments:

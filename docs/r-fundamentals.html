@@ -289,7 +289,7 @@ window.Quarto = {
   <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
   <li><a href="#using-r-help" id="toc-using-r-help" class="nav-link" data-scroll-target="#using-r-help">Using R Help</a></li>
   </ul>
-<div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="https://tsl-bioinformatics.shinyapps.io/nonfreqstats_chatbot/" target="_blank"><i class="bi bi-link-45deg"></i>Introduction to Non-Frequentist Statistics Chatbot</a></li></ul></div></nav>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -407,23 +407,26 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1] -0.02476748 -2.09136358 -1.02248934 -1.69744992  0.05895667  1.05503207
-  [7] -0.40040538 -0.41351914  0.83916774  0.89212636  0.82207807 -0.20276934
- [13]  2.11878807 -0.42455996 -0.18392086  0.27170223 -2.16481407 -0.27348207
- [19]  0.06313183 -1.15107523  0.66228362 -1.57499961 -0.34725496 -0.66656242
- [25]  0.14280066 -0.79012779  0.35711738  0.39136287 -0.29582966  0.52169592
- [31] -2.13648457 -0.98489764  0.20165470 -0.46222511  1.76613291  0.23566183
- [37] -0.95943435  0.45944775 -0.66857532 -0.77478307  1.67368231  1.71417594
- [43]  1.97003539 -0.95841292 -2.00321029 -0.04826576  0.68218269 -1.15167289
- [49] -0.66635554  1.35439502  0.45565879 -0.62651434  0.69841996 -0.40658964
- [55]  0.44409602  0.76678923 -0.78978946 -0.51999011  0.42588982  0.06446149
- [61] -0.62013442  0.44559813  0.05614267 -0.68609116 -0.75702382  0.71240167
- [67]  0.06199338 -1.33377884 -1.35234383 -0.82703642 -0.30709308 -0.34152447
- [73]  0.92198832  2.24893939  0.77732355 -1.42433973 -1.38758750  0.07225661
- [79] -0.69868325  2.22281381  0.22834503 -0.72941394  1.05884078  1.04236582
- [85]  0.50427947 -0.59658971 -0.96539837  0.95475318  0.87568177  0.44492787
- [91] -1.51892945 -0.70582627  0.10080041 -0.98445775 -0.37962687 -1.17928429
- [97] -0.03900438  0.87483167  0.65202058  0.55416549</code></pre>
+<pre><code>  [1] -1.390936031 -0.028904066  1.704826908 -0.646489470 -0.548468221
+  [6]  0.442282172 -0.702494863  0.507400991  1.804779344  0.667729431
+ [11]  0.435169171 -0.629002656  0.677114864  0.215882409  0.835216193
+ [16]  1.068396604 -0.307663915 -0.285341687  0.751878316  0.349220190
+ [21] -1.283868103 -0.343771474  0.225651764 -0.673936294 -0.240844655
+ [26] -0.086307224  0.042181338 -0.730825376 -0.989593010 -0.175744656
+ [31] -2.412987108 -1.566178870 -0.336340614  0.123591001 -0.556336286
+ [36] -0.177240962 -1.106452203  0.329576950 -0.176862464  0.793362030
+ [41]  0.810462104 -1.802205866 -0.997735074 -0.412453376 -0.085483704
+ [46] -0.649954406 -0.366498292  1.234454117  0.747384623 -0.967453694
+ [51] -0.832383016 -0.614769069 -0.817408788 -0.565158197 -0.301098908
+ [56]  1.423274346  0.369354806  0.005544948 -0.023232033 -0.254030763
+ [61]  0.759187712  0.695956978  0.761088377 -0.606324667  0.752127611
+ [66]  0.879654265 -0.486459020  0.370046754 -0.069063672 -0.435339649
+ [71] -0.562331973 -0.669411965 -0.268746577  1.668810837 -1.300998779
+ [76]  0.195929494  0.141288977 -0.081482378  0.806252083  0.261275694
+ [81]  0.120093250  1.756582749  1.010715096  0.446473895  1.055392742
+ [86]  0.290387503  1.236266117 -0.501008400  1.144857271 -0.488226102
+ [91] -0.637743088  0.555571421 -2.563358105  0.546292646  0.243944454
+ [96] -0.635106358 -0.931350797  1.769015726 -1.305048656 -0.929659407</code></pre>
 </div>
 </div>
 <p>We can combine objects, variables and functions to do more complex stuff in R, here’s how we get the mean of 100 random numbers.</p>
@@ -431,7 +434,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(numbers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.06075975</code></pre>
+<pre><code>[1] -0.009839845</code></pre>
 </div>
 </div>
 <p>Here we created a vector object with <code>rnorm(100)</code> and assigned it to the variable <code>numbers</code>. We than used the <code>mean()</code> function, passing it the variable <code>numbers</code>. The <code>mean()</code> function returned the mean of the hundred random numbers.</p>
@@ -442,10 +445,10 @@ window.Quarto = {
 <p>One of the more common objects that R uses is a dataframe. The dataframe is a rectangular table-like object that contains data, think of it like a spreadsheet tab. Like the spreadsheet, the dataframe has rows and columns, the columns have names and the different columns can have different types of data in. Here’s a little one</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>  names age     score
-1 Guido  24 56.079663
-2 Marty  45 56.485117
-3  Alan  11  5.013943</code></pre>
+<pre><code>  names age    score
+1 Guido  24 21.45016
+2 Marty  45 80.32784
+3  Alan  11 11.91818</code></pre>
 </div>
 </div>
 <p>Usually we get a dataframe by loading in data from an external source or as a result from functions, occasionally we’ll want to hand make one, which can be done with various functions, <code>data.frame</code> being the most common.</p>
